@@ -155,106 +155,120 @@ def _LSH(l, r):
 import loc
 # (Line 2) import moveRule.pawn;
 from moveRule import pawn
-# (Line 3) import board;
+# (Line 3) import moveRule.rook;
+from moveRule import rook
+# (Line 4) import board;
 import board
-# (Line 5) function onPluginStart() {
+# (Line 6) function onPluginStart() {
 @EUDTracedFunc
 def onPluginStart():
-    # (Line 6) board.initBoard();
-    EUDTraceLog(6)
+    # (Line 7) board.initBoard();
+    EUDTraceLog(7)
     board.f_initBoard()
-    # (Line 7) }
-    # (Line 9) var lastClickedUnitPtr = 0;
+    # (Line 8) }
+    # (Line 10) var lastClickedUnitPtr = 0;
 
 lastClickedUnitPtr = EUDCreateVariables(1)
 _IGVA([lastClickedUnitPtr], lambda: [0])
-# (Line 11) function afterTriggerExec () {
+# (Line 12) function afterTriggerExec () {
 @EUDTracedFunc
 def afterTriggerExec():
-    # (Line 12) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
-    # (Line 13) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
-    EUDTraceLog(12)
-    DoActions(SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere'))
+    # (Line 13) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
+    # (Line 14) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
     EUDTraceLog(13)
+    DoActions(SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere'))
+    EUDTraceLog(14)
     clickedUnitPtr = f_dwread_epd(EPD(0x6284E8))
-    # (Line 16) if (lastClickedUnitPtr != clickedUnitPtr) {
+    # (Line 17) if (lastClickedUnitPtr != clickedUnitPtr) {
     _t1 = EUDIf()
-    EUDTraceLog(16)
+    EUDTraceLog(17)
     if _t1(lastClickedUnitPtr == clickedUnitPtr, neg=True):
-        # (Line 17) if (clickedUnitPtr != 0) {
+        # (Line 18) if (clickedUnitPtr != 0) {
         _t2 = EUDIf()
-        EUDTraceLog(17)
+        EUDTraceLog(18)
         if _t2(clickedUnitPtr == 0, neg=True):
-            # (Line 18) const unitEPD = EPD(clickedUnitPtr);
-            EUDTraceLog(18)
-            unitEPD = EPD(clickedUnitPtr)
-            # (Line 19) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
+            # (Line 19) const unitEPD = EPD(clickedUnitPtr);
             EUDTraceLog(19)
-            unitX, unitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(unitEPD + 0x28 // 4)), [0, 1])])
-            # (Line 20) const unitCellX = (unitX - loc.c11x) / 64 + 1;
+            unitEPD = EPD(clickedUnitPtr)
+            # (Line 20) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
             EUDTraceLog(20)
-            unitCellX = (unitX - loc.c11x) // 64 + 1
-            # (Line 21) const unitCellY = (unitY - loc.c11y) / 64 + 1;
+            unitX, unitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(unitEPD + 0x28 // 4)), [0, 1])])
+            # (Line 21) const unitCellX = (unitX - loc.c11x) / 64 + 1;
             EUDTraceLog(21)
-            unitCellY = (unitY - loc.c11y) // 64 + 1
-            # (Line 22) const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
+            unitCellX = (unitX - loc.c11x) // 64 + 1
+            # (Line 22) const unitCellY = (unitY - loc.c11y) / 64 + 1;
             EUDTraceLog(22)
-            unitPlayer = f_bread_epd(unitEPD + 0x4C // 4, 0)
-            # (Line 23) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
+            unitCellY = (unitY - loc.c11y) // 64 + 1
+            # (Line 23) const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
             EUDTraceLog(23)
-            unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
-            # (Line 24) simpleprint(unitType, unitX, unitY);
+            unitPlayer = f_bread_epd(unitEPD + 0x4C // 4, 0)
+            # (Line 24) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
             EUDTraceLog(24)
+            unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
+            # (Line 25) simpleprint(unitType, unitX, unitY);
+            EUDTraceLog(25)
             f_simpleprint(unitType, unitX, unitY)
-            # (Line 27) if (unitType == $U('Pawn')) {
+            # (Line 28) if (unitType == $U('Pawn')) {
             _t3 = EUDIf()
-            EUDTraceLog(27)
+            EUDTraceLog(28)
             if _t3(unitType == EncodeUnit('Pawn')):
-                # (Line 28) RemoveUnit('Cursor', Force2);
-                # (Line 29) pawn.movePawn(unitPlayer, unitCellX, unitCellY);
-                EUDTraceLog(28)
-                DoActions(RemoveUnit('Cursor', Force2))
+                # (Line 29) RemoveUnit('Cursor', Force2);
+                # (Line 30) pawn.movePawn(unitPlayer, unitCellX, unitCellY);
                 EUDTraceLog(29)
-                pawn.f_movePawn(unitPlayer, unitCellX, unitCellY)
-                # (Line 30) }
-                # (Line 32) else if (unitType == $U('Cursor')) {
-            _t4 = EUDElseIf()
-            EUDTraceLog(32)
-            if _t4(unitType == EncodeUnit('Cursor')):
-                # (Line 34) const lastUnitEPD = EPD(lastClickedUnitPtr);
-                EUDTraceLog(34)
-                lastUnitEPD = EPD(lastClickedUnitPtr)
-                # (Line 35) const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
-                EUDTraceLog(35)
-                lastUnitX, lastUnitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(lastUnitEPD + 0x28 // 4)), [0, 1])])
-                # (Line 36) const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
-                EUDTraceLog(36)
-                lastUnitCellX = (lastUnitX - loc.c11x) // 64 + 1
-                # (Line 37) const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
-                EUDTraceLog(37)
-                lastUnitCellY = (lastUnitY - loc.c11y) // 64 + 1
-                # (Line 38) const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
-                EUDTraceLog(38)
-                lastUnitType = f_wread_epd(lastUnitEPD + (0x64 // 4), 0)
-                # (Line 40) board.removeBoard(unitCellX, unitCellY);
-                EUDTraceLog(40)
-                board.f_removeBoard(unitCellX, unitCellY)
-                # (Line 41) board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer);
-                EUDTraceLog(41)
-                board.f_placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer)
-                # (Line 42) board.removeBoard(lastUnitCellX, lastUnitCellY);
-                EUDTraceLog(42)
-                board.f_removeBoard(lastUnitCellX, lastUnitCellY)
-                # (Line 43) RemoveUnit('Cursor', Force2);
-                # (Line 44) }
-                EUDTraceLog(43)
                 DoActions(RemoveUnit('Cursor', Force2))
-                # (Line 49) }
+                EUDTraceLog(30)
+                pawn.f_movePawn(unitPlayer, unitCellX, unitCellY)
+                # (Line 31) }
+                # (Line 33) if (unitType == $U('Rook')) {
             EUDEndIf()
-            # (Line 50) lastClickedUnitPtr = clickedUnitPtr;
+            _t4 = EUDIf()
+            EUDTraceLog(33)
+            if _t4(unitType == EncodeUnit('Rook')):
+                # (Line 34) RemoveUnit('Cursor', Force2);
+                # (Line 35) rook.moveRook(unitPlayer, unitCellX, unitCellY);
+                EUDTraceLog(34)
+                DoActions(RemoveUnit('Cursor', Force2))
+                EUDTraceLog(35)
+                rook.f_moveRook(unitPlayer, unitCellX, unitCellY)
+                # (Line 36) }
+                # (Line 38) else if (unitType == $U('Cursor')) {
+            _t5 = EUDElseIf()
+            EUDTraceLog(38)
+            if _t5(unitType == EncodeUnit('Cursor')):
+                # (Line 40) const lastUnitEPD = EPD(lastClickedUnitPtr);
+                EUDTraceLog(40)
+                lastUnitEPD = EPD(lastClickedUnitPtr)
+                # (Line 41) const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+                EUDTraceLog(41)
+                lastUnitX, lastUnitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(lastUnitEPD + 0x28 // 4)), [0, 1])])
+                # (Line 42) const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+                EUDTraceLog(42)
+                lastUnitCellX = (lastUnitX - loc.c11x) // 64 + 1
+                # (Line 43) const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+                EUDTraceLog(43)
+                lastUnitCellY = (lastUnitY - loc.c11y) // 64 + 1
+                # (Line 44) const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+                EUDTraceLog(44)
+                lastUnitType = f_wread_epd(lastUnitEPD + (0x64 // 4), 0)
+                # (Line 46) board.removeBoard(unitCellX, unitCellY);
+                EUDTraceLog(46)
+                board.f_removeBoard(unitCellX, unitCellY)
+                # (Line 47) board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer);
+                EUDTraceLog(47)
+                board.f_placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer)
+                # (Line 48) board.removeBoard(lastUnitCellX, lastUnitCellY);
+                EUDTraceLog(48)
+                board.f_removeBoard(lastUnitCellX, lastUnitCellY)
+                # (Line 49) RemoveUnit('Cursor', Force2);
+                # (Line 50) }
+                EUDTraceLog(49)
+                DoActions(RemoveUnit('Cursor', Force2))
+                # (Line 55) }
+            EUDEndIf()
+            # (Line 56) lastClickedUnitPtr = clickedUnitPtr;
         EUDEndIf()
-        EUDTraceLog(50)
+        EUDTraceLog(56)
         lastClickedUnitPtr << (clickedUnitPtr)
-        # (Line 51) }
-        # (Line 52) }
+        # (Line 57) }
+        # (Line 58) }
     EUDEndIf()

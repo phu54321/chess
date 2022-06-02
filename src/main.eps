@@ -1,5 +1,6 @@
 import loc;
 import moveRule.pawn;
+import moveRule.rook;
 import board;
 
 function onPluginStart() {
@@ -27,6 +28,11 @@ function afterTriggerExec () {
       if (unitType == $U('Pawn')) {
         RemoveUnit('Cursor', Force2);
         pawn.movePawn(unitPlayer, unitCellX, unitCellY);
+      }
+
+      if (unitType == $U('Rook')) {
+        RemoveUnit('Cursor', Force2);
+        rook.moveRook(unitPlayer, unitCellX, unitCellY);
       }
 
       else if (unitType == $U('Cursor')) {
