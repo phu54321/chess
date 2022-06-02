@@ -325,6 +325,27 @@ def onPluginStart():
 @EUDTracedFunc
 def afterTriggerExec():
     # (Line 45) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
-    # (Line 46) }
+    # (Line 46) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
     EUDTraceLog(45)
     DoActions(SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere'))
+    EUDTraceLog(46)
+    clickedUnitPtr = f_dwread_epd(EPD(0x6284E8))
+    # (Line 48) if (clickedUnitPtr != 0) {
+    _t1 = EUDIf()
+    EUDTraceLog(48)
+    if _t1(clickedUnitPtr == 0, neg=True):
+        # (Line 49) const unitEPD = EPD(clickedUnitPtr);
+        EUDTraceLog(49)
+        unitEPD = EPD(clickedUnitPtr)
+        # (Line 50) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
+        EUDTraceLog(50)
+        unitX, unitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(unitEPD + 0x28 // 4)), [0, 1])])
+        # (Line 51) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
+        EUDTraceLog(51)
+        unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
+        # (Line 52) simpleprint(unitType, unitX, unitY);
+        EUDTraceLog(52)
+        f_simpleprint(unitType, unitX, unitY)
+        # (Line 53) }
+        # (Line 54) }
+    EUDEndIf()

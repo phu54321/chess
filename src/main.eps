@@ -43,4 +43,12 @@ function onPluginStart() {
 
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
+  const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
+
+  if (clickedUnitPtr != 0) {
+    const unitEPD = EPD(clickedUnitPtr);
+    const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
+    const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
+    simpleprint(unitType, unitX, unitY);
+  }
 }
