@@ -15,11 +15,8 @@ function getLocationPos(locId) {
     return x0, y0, x1 - x0, y1 - y0;
 }
 
-var c11x, c11y = -1, -1;
+var c11x, c11y = getLocationPos($L('c11'))[[0, 1]];
 function moveCLoc(x, y) {
-    if (c11x == -1) {
-        c11x, c11y = getLocationPos($L('c11'))[[0, 1]];
-    }
     setLocationPos($L('cLoc'), c11x + (x - 1) * 64, c11y + (y - 1) * 64, 64, 64);
 }
 

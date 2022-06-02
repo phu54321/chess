@@ -1,45 +1,57 @@
 import loc;
 
-function onPluginStart() {
-  setcurpl(Player1);
+const boardArray = EUDArray(64);
 
-  // cLoc을 (x, y) 칸으로 옮긴다.
-  loc.moveCLoc(1, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(2, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(3, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(4, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(5, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(6, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(7, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-  loc.moveCLoc(8, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-
-  loc.moveCLoc(1, 1); CreateUnit(1, 'Rook', 'cLoc', P7);
-  loc.moveCLoc(2, 1); CreateUnit(1, 'Knight', 'cLoc', P7);
-  loc.moveCLoc(3, 1); CreateUnit(1, 'Bishop', 'cLoc', P7);
-  loc.moveCLoc(4, 1); CreateUnit(1, 'King', 'cLoc', P7);
-  loc.moveCLoc(5, 1); CreateUnit(1, 'Queen', 'cLoc', P7);
-  loc.moveCLoc(6, 1); CreateUnit(1, 'Bishop', 'cLoc', P7);
-  loc.moveCLoc(7, 1); CreateUnit(1, 'Knight', 'cLoc', P7);
-  loc.moveCLoc(8, 1); CreateUnit(1, 'Rook', 'cLoc', P7);
-
-  loc.moveCLoc(1, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(2, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(3, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(4, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(5, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(6, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(7, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-  loc.moveCLoc(8, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-
-  loc.moveCLoc(1, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
-  loc.moveCLoc(2, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
-  loc.moveCLoc(3, 8); CreateUnit(1, 'Bishop', 'cLoc', P8);
-  loc.moveCLoc(4, 8); CreateUnit(1, 'King', 'cLoc', P8);
-  loc.moveCLoc(5, 8); CreateUnit(1, 'Queen', 'cLoc', P8);
-  loc.moveCLoc(6, 8); CreateUnit(1, 'Bishop', 'cLoc', P8);
-  loc.moveCLoc(7, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
-  loc.moveCLoc(8, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
+function placeBoard(x, y, unit: TrgUnit, player: TrgPlayer) {
+  boardArray[(y - 1) * 8 + (x - 1)] = unit + 1000 * player;
+  loc.moveCLoc(x, y);
+  CreateUnit(1, unit, 'cLoc', player);
 }
+
+function initBoard () {
+  placeBoard(1, 2, 'Pawn', P7);
+  placeBoard(2, 2, 'Pawn', P7);
+  placeBoard(3, 2, 'Pawn', P7);
+  placeBoard(4, 2, 'Pawn', P7);
+  placeBoard(5, 2, 'Pawn', P7);
+  placeBoard(6, 2, 'Pawn', P7);
+  placeBoard(7, 2, 'Pawn', P7);
+  placeBoard(8, 2, 'Pawn', P7);
+
+  placeBoard(1, 1, 'Rook', P7);
+  placeBoard(2, 1, 'Knight', P7);
+  placeBoard(3, 1, 'Bishop', P7);
+  placeBoard(4, 1, 'King', P7);
+  placeBoard(5, 1, 'Queen', P7);
+  placeBoard(6, 1, 'Bishop', P7);
+  placeBoard(7, 1, 'Knight', P7);
+  placeBoard(8, 1, 'Rook', P7);
+
+  placeBoard(1, 7, 'Pawn', P8);
+  placeBoard(2, 7, 'Pawn', P8);
+  placeBoard(3, 7, 'Pawn', P8);
+  placeBoard(4, 7, 'Pawn', P8);
+  placeBoard(5, 7, 'Pawn', P8);
+  placeBoard(6, 7, 'Pawn', P8);
+  placeBoard(7, 7, 'Pawn', P8);
+  placeBoard(8, 7, 'Pawn', P8);
+
+  placeBoard(1, 8, 'Rook', P8);
+  placeBoard(2, 8, 'Knight', P8);
+  placeBoard(3, 8, 'Bishop', P8);
+  placeBoard(4, 8, 'King', P8);
+  placeBoard(5, 8, 'Queen', P8);
+  placeBoard(6, 8, 'Bishop', P8);
+  placeBoard(7, 8, 'Knight', P8);
+  placeBoard(8, 8, 'Rook', P8);
+}
+
+function onPluginStart() {
+  initBoard();
+}
+
+
+
 
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
@@ -48,7 +60,14 @@ function afterTriggerExec () {
   if (clickedUnitPtr != 0) {
     const unitEPD = EPD(clickedUnitPtr);
     const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
+    const unitCellX = (unitX - loc.c11x) / 64 + 1;
+    const unitCellY = (unitY - loc.c11y) / 64 + 1;
     const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
     simpleprint(unitType, unitX, unitY);
+
+    // unitType == 폰일 경우
+    // unitX, unitY + 1, unitX, unitY + 2 (if unitY = 2)
+    // (unitY > 2)
+    //
   }
 }

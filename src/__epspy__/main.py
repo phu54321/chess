@@ -153,199 +153,162 @@ def _LSH(l, r):
 
 # (Line 1) import loc;
 import loc
-# (Line 3) function onPluginStart() {
+# (Line 3) const boardArray = EUDArray(64);
+boardArray = _CGFW(lambda: [EUDArray(64)], 1)[0]
+# (Line 5) function placeBoard(x, y, unit: TrgUnit, player: TrgPlayer) {
+@EUDTracedTypedFunc([None, None, TrgUnit, TrgPlayer])
+def f_placeBoard(x, y, unit, player):
+    # (Line 6) boardArray[(y - 1) * 8 + (x - 1)] = unit + 1000 * player;
+    EUDTraceLog(6)
+    _ARRW(boardArray, (y - 1) * 8 + (x - 1)) << (unit + 1000 * player)
+    # (Line 7) loc.moveCLoc(x, y);
+    EUDTraceLog(7)
+    loc.f_moveCLoc(x, y)
+    # (Line 8) CreateUnit(1, unit, 'cLoc', player);
+    # (Line 9) }
+    EUDTraceLog(8)
+    DoActions(CreateUnit(1, unit, 'cLoc', player))
+    # (Line 11) function initBoard () {
+
+@EUDTracedFunc
+def f_initBoard():
+    # (Line 12) placeBoard(1, 2, 'Pawn', P7);
+    EUDTraceLog(12)
+    f_placeBoard(1, 2, 'Pawn', P7)
+    # (Line 13) placeBoard(2, 2, 'Pawn', P7);
+    EUDTraceLog(13)
+    f_placeBoard(2, 2, 'Pawn', P7)
+    # (Line 14) placeBoard(3, 2, 'Pawn', P7);
+    EUDTraceLog(14)
+    f_placeBoard(3, 2, 'Pawn', P7)
+    # (Line 15) placeBoard(4, 2, 'Pawn', P7);
+    EUDTraceLog(15)
+    f_placeBoard(4, 2, 'Pawn', P7)
+    # (Line 16) placeBoard(5, 2, 'Pawn', P7);
+    EUDTraceLog(16)
+    f_placeBoard(5, 2, 'Pawn', P7)
+    # (Line 17) placeBoard(6, 2, 'Pawn', P7);
+    EUDTraceLog(17)
+    f_placeBoard(6, 2, 'Pawn', P7)
+    # (Line 18) placeBoard(7, 2, 'Pawn', P7);
+    EUDTraceLog(18)
+    f_placeBoard(7, 2, 'Pawn', P7)
+    # (Line 19) placeBoard(8, 2, 'Pawn', P7);
+    EUDTraceLog(19)
+    f_placeBoard(8, 2, 'Pawn', P7)
+    # (Line 21) placeBoard(1, 1, 'Rook', P7);
+    EUDTraceLog(21)
+    f_placeBoard(1, 1, 'Rook', P7)
+    # (Line 22) placeBoard(2, 1, 'Knight', P7);
+    EUDTraceLog(22)
+    f_placeBoard(2, 1, 'Knight', P7)
+    # (Line 23) placeBoard(3, 1, 'Bishop', P7);
+    EUDTraceLog(23)
+    f_placeBoard(3, 1, 'Bishop', P7)
+    # (Line 24) placeBoard(4, 1, 'King', P7);
+    EUDTraceLog(24)
+    f_placeBoard(4, 1, 'King', P7)
+    # (Line 25) placeBoard(5, 1, 'Queen', P7);
+    EUDTraceLog(25)
+    f_placeBoard(5, 1, 'Queen', P7)
+    # (Line 26) placeBoard(6, 1, 'Bishop', P7);
+    EUDTraceLog(26)
+    f_placeBoard(6, 1, 'Bishop', P7)
+    # (Line 27) placeBoard(7, 1, 'Knight', P7);
+    EUDTraceLog(27)
+    f_placeBoard(7, 1, 'Knight', P7)
+    # (Line 28) placeBoard(8, 1, 'Rook', P7);
+    EUDTraceLog(28)
+    f_placeBoard(8, 1, 'Rook', P7)
+    # (Line 30) placeBoard(1, 7, 'Pawn', P8);
+    EUDTraceLog(30)
+    f_placeBoard(1, 7, 'Pawn', P8)
+    # (Line 31) placeBoard(2, 7, 'Pawn', P8);
+    EUDTraceLog(31)
+    f_placeBoard(2, 7, 'Pawn', P8)
+    # (Line 32) placeBoard(3, 7, 'Pawn', P8);
+    EUDTraceLog(32)
+    f_placeBoard(3, 7, 'Pawn', P8)
+    # (Line 33) placeBoard(4, 7, 'Pawn', P8);
+    EUDTraceLog(33)
+    f_placeBoard(4, 7, 'Pawn', P8)
+    # (Line 34) placeBoard(5, 7, 'Pawn', P8);
+    EUDTraceLog(34)
+    f_placeBoard(5, 7, 'Pawn', P8)
+    # (Line 35) placeBoard(6, 7, 'Pawn', P8);
+    EUDTraceLog(35)
+    f_placeBoard(6, 7, 'Pawn', P8)
+    # (Line 36) placeBoard(7, 7, 'Pawn', P8);
+    EUDTraceLog(36)
+    f_placeBoard(7, 7, 'Pawn', P8)
+    # (Line 37) placeBoard(8, 7, 'Pawn', P8);
+    EUDTraceLog(37)
+    f_placeBoard(8, 7, 'Pawn', P8)
+    # (Line 39) placeBoard(1, 8, 'Rook', P8);
+    EUDTraceLog(39)
+    f_placeBoard(1, 8, 'Rook', P8)
+    # (Line 40) placeBoard(2, 8, 'Knight', P8);
+    EUDTraceLog(40)
+    f_placeBoard(2, 8, 'Knight', P8)
+    # (Line 41) placeBoard(3, 8, 'Bishop', P8);
+    EUDTraceLog(41)
+    f_placeBoard(3, 8, 'Bishop', P8)
+    # (Line 42) placeBoard(4, 8, 'King', P8);
+    EUDTraceLog(42)
+    f_placeBoard(4, 8, 'King', P8)
+    # (Line 43) placeBoard(5, 8, 'Queen', P8);
+    EUDTraceLog(43)
+    f_placeBoard(5, 8, 'Queen', P8)
+    # (Line 44) placeBoard(6, 8, 'Bishop', P8);
+    EUDTraceLog(44)
+    f_placeBoard(6, 8, 'Bishop', P8)
+    # (Line 45) placeBoard(7, 8, 'Knight', P8);
+    EUDTraceLog(45)
+    f_placeBoard(7, 8, 'Knight', P8)
+    # (Line 46) placeBoard(8, 8, 'Rook', P8);
+    EUDTraceLog(46)
+    f_placeBoard(8, 8, 'Rook', P8)
+    # (Line 47) }
+    # (Line 49) function onPluginStart() {
+
 @EUDTracedFunc
 def onPluginStart():
-    # (Line 4) setcurpl(Player1);
-    EUDTraceLog(4)
-    f_setcurpl(Player1)
-    # (Line 7) loc.moveCLoc(1, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(7)
-    loc.f_moveCLoc(1, 2)
-    # (Line 8) loc.moveCLoc(2, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(7)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(8)
-    loc.f_moveCLoc(2, 2)
-    # (Line 9) loc.moveCLoc(3, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(8)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(9)
-    loc.f_moveCLoc(3, 2)
-    # (Line 10) loc.moveCLoc(4, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(9)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(10)
-    loc.f_moveCLoc(4, 2)
-    # (Line 11) loc.moveCLoc(5, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(10)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(11)
-    loc.f_moveCLoc(5, 2)
-    # (Line 12) loc.moveCLoc(6, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(11)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(12)
-    loc.f_moveCLoc(6, 2)
-    # (Line 13) loc.moveCLoc(7, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(12)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(13)
-    loc.f_moveCLoc(7, 2)
-    # (Line 14) loc.moveCLoc(8, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
-    EUDTraceLog(13)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(14)
-    loc.f_moveCLoc(8, 2)
-    # (Line 16) loc.moveCLoc(1, 1); CreateUnit(1, 'Rook', 'cLoc', P7);
-    EUDTraceLog(14)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P7))
-    EUDTraceLog(16)
-    loc.f_moveCLoc(1, 1)
-    # (Line 17) loc.moveCLoc(2, 1); CreateUnit(1, 'Knight', 'cLoc', P7);
-    EUDTraceLog(16)
-    DoActions(CreateUnit(1, 'Rook', 'cLoc', P7))
-    EUDTraceLog(17)
-    loc.f_moveCLoc(2, 1)
-    # (Line 18) loc.moveCLoc(3, 1); CreateUnit(1, 'Bishop', 'cLoc', P7);
-    EUDTraceLog(17)
-    DoActions(CreateUnit(1, 'Knight', 'cLoc', P7))
-    EUDTraceLog(18)
-    loc.f_moveCLoc(3, 1)
-    # (Line 19) loc.moveCLoc(4, 1); CreateUnit(1, 'King', 'cLoc', P7);
-    EUDTraceLog(18)
-    DoActions(CreateUnit(1, 'Bishop', 'cLoc', P7))
-    EUDTraceLog(19)
-    loc.f_moveCLoc(4, 1)
-    # (Line 20) loc.moveCLoc(5, 1); CreateUnit(1, 'Queen', 'cLoc', P7);
-    EUDTraceLog(19)
-    DoActions(CreateUnit(1, 'King', 'cLoc', P7))
-    EUDTraceLog(20)
-    loc.f_moveCLoc(5, 1)
-    # (Line 21) loc.moveCLoc(6, 1); CreateUnit(1, 'Bishop', 'cLoc', P7);
-    EUDTraceLog(20)
-    DoActions(CreateUnit(1, 'Queen', 'cLoc', P7))
-    EUDTraceLog(21)
-    loc.f_moveCLoc(6, 1)
-    # (Line 22) loc.moveCLoc(7, 1); CreateUnit(1, 'Knight', 'cLoc', P7);
-    EUDTraceLog(21)
-    DoActions(CreateUnit(1, 'Bishop', 'cLoc', P7))
-    EUDTraceLog(22)
-    loc.f_moveCLoc(7, 1)
-    # (Line 23) loc.moveCLoc(8, 1); CreateUnit(1, 'Rook', 'cLoc', P7);
-    EUDTraceLog(22)
-    DoActions(CreateUnit(1, 'Knight', 'cLoc', P7))
-    EUDTraceLog(23)
-    loc.f_moveCLoc(8, 1)
-    # (Line 25) loc.moveCLoc(1, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(23)
-    DoActions(CreateUnit(1, 'Rook', 'cLoc', P7))
-    EUDTraceLog(25)
-    loc.f_moveCLoc(1, 7)
-    # (Line 26) loc.moveCLoc(2, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(25)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(26)
-    loc.f_moveCLoc(2, 7)
-    # (Line 27) loc.moveCLoc(3, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(26)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(27)
-    loc.f_moveCLoc(3, 7)
-    # (Line 28) loc.moveCLoc(4, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(27)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(28)
-    loc.f_moveCLoc(4, 7)
-    # (Line 29) loc.moveCLoc(5, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(28)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(29)
-    loc.f_moveCLoc(5, 7)
-    # (Line 30) loc.moveCLoc(6, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(29)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(30)
-    loc.f_moveCLoc(6, 7)
-    # (Line 31) loc.moveCLoc(7, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(30)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(31)
-    loc.f_moveCLoc(7, 7)
-    # (Line 32) loc.moveCLoc(8, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
-    EUDTraceLog(31)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(32)
-    loc.f_moveCLoc(8, 7)
-    # (Line 34) loc.moveCLoc(1, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
-    EUDTraceLog(32)
-    DoActions(CreateUnit(1, 'Pawn', 'cLoc', P8))
-    EUDTraceLog(34)
-    loc.f_moveCLoc(1, 8)
-    # (Line 35) loc.moveCLoc(2, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
-    EUDTraceLog(34)
-    DoActions(CreateUnit(1, 'Rook', 'cLoc', P8))
-    EUDTraceLog(35)
-    loc.f_moveCLoc(2, 8)
-    # (Line 36) loc.moveCLoc(3, 8); CreateUnit(1, 'Bishop', 'cLoc', P8);
-    EUDTraceLog(35)
-    DoActions(CreateUnit(1, 'Knight', 'cLoc', P8))
-    EUDTraceLog(36)
-    loc.f_moveCLoc(3, 8)
-    # (Line 37) loc.moveCLoc(4, 8); CreateUnit(1, 'King', 'cLoc', P8);
-    EUDTraceLog(36)
-    DoActions(CreateUnit(1, 'Bishop', 'cLoc', P8))
-    EUDTraceLog(37)
-    loc.f_moveCLoc(4, 8)
-    # (Line 38) loc.moveCLoc(5, 8); CreateUnit(1, 'Queen', 'cLoc', P8);
-    EUDTraceLog(37)
-    DoActions(CreateUnit(1, 'King', 'cLoc', P8))
-    EUDTraceLog(38)
-    loc.f_moveCLoc(5, 8)
-    # (Line 39) loc.moveCLoc(6, 8); CreateUnit(1, 'Bishop', 'cLoc', P8);
-    EUDTraceLog(38)
-    DoActions(CreateUnit(1, 'Queen', 'cLoc', P8))
-    EUDTraceLog(39)
-    loc.f_moveCLoc(6, 8)
-    # (Line 40) loc.moveCLoc(7, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
-    EUDTraceLog(39)
-    DoActions(CreateUnit(1, 'Bishop', 'cLoc', P8))
-    EUDTraceLog(40)
-    loc.f_moveCLoc(7, 8)
-    # (Line 41) loc.moveCLoc(8, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
-    EUDTraceLog(40)
-    DoActions(CreateUnit(1, 'Knight', 'cLoc', P8))
-    EUDTraceLog(41)
-    loc.f_moveCLoc(8, 8)
-    # (Line 42) }
-    EUDTraceLog(41)
-    DoActions(CreateUnit(1, 'Rook', 'cLoc', P8))
-    # (Line 44) function afterTriggerExec () {
+    # (Line 50) initBoard();
+    EUDTraceLog(50)
+    f_initBoard()
+    # (Line 51) }
+    # (Line 56) function afterTriggerExec () {
 
 @EUDTracedFunc
 def afterTriggerExec():
-    # (Line 45) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
-    # (Line 46) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
-    EUDTraceLog(45)
+    # (Line 57) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
+    # (Line 58) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
+    EUDTraceLog(57)
     DoActions(SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere'))
-    EUDTraceLog(46)
+    EUDTraceLog(58)
     clickedUnitPtr = f_dwread_epd(EPD(0x6284E8))
-    # (Line 48) if (clickedUnitPtr != 0) {
+    # (Line 60) if (clickedUnitPtr != 0) {
     _t1 = EUDIf()
-    EUDTraceLog(48)
+    EUDTraceLog(60)
     if _t1(clickedUnitPtr == 0, neg=True):
-        # (Line 49) const unitEPD = EPD(clickedUnitPtr);
-        EUDTraceLog(49)
+        # (Line 61) const unitEPD = EPD(clickedUnitPtr);
+        EUDTraceLog(61)
         unitEPD = EPD(clickedUnitPtr)
-        # (Line 50) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
-        EUDTraceLog(50)
+        # (Line 62) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
+        EUDTraceLog(62)
         unitX, unitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(unitEPD + 0x28 // 4)), [0, 1])])
-        # (Line 51) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
-        EUDTraceLog(51)
+        # (Line 63) const unitCellX = (unitX - loc.c11x) / 64 + 1;
+        EUDTraceLog(63)
+        unitCellX = (unitX - loc.c11x) // 64 + 1
+        # (Line 64) const unitCellY = (unitY - loc.c11y) / 64 + 1;
+        EUDTraceLog(64)
+        unitCellY = (unitY - loc.c11y) // 64 + 1
+        # (Line 65) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
+        EUDTraceLog(65)
         unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
-        # (Line 52) simpleprint(unitType, unitX, unitY);
-        EUDTraceLog(52)
+        # (Line 66) simpleprint(unitType, unitX, unitY);
+        EUDTraceLog(66)
         f_simpleprint(unitType, unitX, unitY)
-        # (Line 53) }
-        # (Line 54) }
+        # (Line 72) }
+        # (Line 73) }
     EUDEndIf()

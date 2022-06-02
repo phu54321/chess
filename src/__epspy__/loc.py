@@ -189,31 +189,22 @@ def f_getLocationPos(locId):
     EUDTraceLog(15)
     EUDReturn(x0, y0, x1 - x0, y1 - y0)
     # (Line 16) }
-    # (Line 18) var c11x, c11y = -1, -1;
+    # (Line 18) var c11x, c11y = getLocationPos($L('c11'))[[0, 1]];
 
 c11x, c11y = EUDCreateVariables(2)
-_IGVA([c11x, c11y], lambda: [-1, -1])
+_IGVA([c11x, c11y], lambda: [_SRET(f_getLocationPos(GetLocationIndex('c11')), [0, 1])])
 # (Line 19) function moveCLoc(x, y) {
 @EUDTracedFunc
 def f_moveCLoc(x, y):
-    # (Line 20) if (c11x == -1) {
-    _t1 = EUDIf()
+    # (Line 20) setLocationPos($L('cLoc'), c11x + (x - 1) * 64, c11y + (y - 1) * 64, 64, 64);
     EUDTraceLog(20)
-    if _t1(c11x == -1):
-        # (Line 21) c11x, c11y = getLocationPos($L('c11'))[[0, 1]];
-        EUDTraceLog(21)
-        _SV([c11x, c11y], [_SRET(f_getLocationPos(GetLocationIndex('c11')), [0, 1])])
-        # (Line 22) }
-        # (Line 23) setLocationPos($L('cLoc'), c11x + (x - 1) * 64, c11y + (y - 1) * 64, 64, 64);
-    EUDEndIf()
-    EUDTraceLog(23)
     f_setLocationPos(GetLocationIndex('cLoc'), c11x + (x - 1) * 64, c11y + (y - 1) * 64, 64, 64)
-    # (Line 24) }
-    # (Line 26) function pxMoveTo(x, y) {
+    # (Line 21) }
+    # (Line 23) function pxMoveTo(x, y) {
 
 @EUDTracedFunc
 def f_pxMoveTo(x, y):
-    # (Line 27) setLocationPos(pxMove, x, y, 0, 0);
-    EUDTraceLog(27)
+    # (Line 24) setLocationPos(pxMove, x, y, 0, 0);
+    EUDTraceLog(24)
     f_setLocationPos(pxMove, x, y, 0, 0)
-    # (Line 28) }
+    # (Line 25) }
