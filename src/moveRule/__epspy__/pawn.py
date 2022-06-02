@@ -155,131 +155,72 @@ def _LSH(l, r):
 import loc
 # (Line 2) import board;
 import board
-# (Line 4) function movePawn(unitPlayer, unitCellX, unitCellY) {
+# (Line 4) function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
 @EUDTracedFunc
-def f_movePawn(unitPlayer, unitCellX, unitCellY):
-    # (Line 5) if (unitPlayer == $P7) {
-    _t1 = EUDIf()
+def f_movePawn(unitPlayer, unitCellX, unitCellY, currentTurn):
+    # (Line 5) const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
     EUDTraceLog(5)
-    if _t1(unitPlayer == 6):
-        # (Line 6) if (unitCellY == 2) {
+    opponentPlayer = EUDTernary((unitPlayer == 6))(7)(6)
+    # (Line 6) const pawnDy = (unitPlayer == $P7) ? 1 : -1;
+    EUDTraceLog(6)
+    pawnDy = EUDTernary((unitPlayer == 6))(1)(-1)
+    # (Line 7) const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
+    EUDTraceLog(7)
+    pawnStartingY = EUDTernary((unitPlayer == 6))(2)(7)
+    # (Line 9) if (unitCellY == pawnStartingY) {
+    _t1 = EUDIf()
+    EUDTraceLog(9)
+    if _t1(unitCellY == pawnStartingY):
+        # (Line 10) if(board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0) {
         _t2 = EUDIf()
-        EUDTraceLog(6)
-        if _t2(unitCellY == 2):
-            # (Line 7) if(board.getBoard(unitCellX, unitCellY + 2)[[0]] == 0) {
-            _t3 = EUDIf()
-            EUDTraceLog(7)
-            if _t3(board.f_getBoard(unitCellX, unitCellY + 2)[0] == 0):
-                # (Line 8) loc.moveCLoc(unitCellX, unitCellY + 2); CreateUnit(1, 'Cursor', 'cLoc', P7);
-                EUDTraceLog(8)
-                loc.f_moveCLoc(unitCellX, unitCellY + 2)
-                # (Line 9) }
-                EUDTraceLog(8)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P7))
-                # (Line 10) }
-            EUDEndIf()
-            # (Line 11) if (unitCellY < 8) {
+        EUDTraceLog(10)
+        if _t2(board.f_getBoard(unitCellX, unitCellY + pawnDy * 2)[0] == 0):
+            # (Line 11) loc.moveCLoc(unitCellX, unitCellY + pawnDy * 2); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(11)
+            loc.f_moveCLoc(unitCellX, unitCellY + pawnDy * 2)
+            # (Line 12) }
+            EUDTraceLog(11)
+            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+            # (Line 13) }
         EUDEndIf()
-        _t4 = EUDIf()
-        EUDTraceLog(11)
-        if _t4(unitCellY >= 8, neg=True):
-            # (Line 12) if(board.getBoard(unitCellX, unitCellY + 1)[[0]] == 0) {
-            _t5 = EUDIf()
-            EUDTraceLog(12)
-            if _t5(board.f_getBoard(unitCellX, unitCellY + 1)[0] == 0):
-                # (Line 13) loc.moveCLoc(unitCellX, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
-                EUDTraceLog(13)
-                loc.f_moveCLoc(unitCellX, unitCellY + 1)
-                # (Line 14) }
-                EUDTraceLog(13)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P7))
-                # (Line 15) if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + 1)[[0]] == $P8) {
-            EUDEndIf()
-            _t6 = EUDIf()
-            EUDTraceLog(15)
-            if _t6(EUDSCAnd()(unitCellX <= 1, neg=True)(board.f_getBoard(unitCellX - 1, unitCellY + 1)[0] == 7)()):
-                # (Line 16) loc.moveCLoc(unitCellX - 1, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
-                EUDTraceLog(16)
-                loc.f_moveCLoc(unitCellX - 1, unitCellY + 1)
-                # (Line 17) }
-                EUDTraceLog(16)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P7))
-                # (Line 18) if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + 1)[[0]] == $P8) {
-            EUDEndIf()
-            _t7 = EUDIf()
-            EUDTraceLog(18)
-            if _t7(EUDSCAnd()(unitCellX >= 8, neg=True)(board.f_getBoard(unitCellX + 1, unitCellY + 1)[0] == 7)()):
-                # (Line 19) loc.moveCLoc(unitCellX + 1, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
-                EUDTraceLog(19)
-                loc.f_moveCLoc(unitCellX + 1, unitCellY + 1)
-                # (Line 20) }
-                EUDTraceLog(19)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P7))
-                # (Line 21) }
-            EUDEndIf()
-            # (Line 22) }
-        EUDEndIf()
-        # (Line 24) if (unitPlayer == $P8) {
+        # (Line 15) if (1 <= unitCellY + pawnDy && unitCellY + pawnDy <= 8) {
     EUDEndIf()
-    _t8 = EUDIf()
-    EUDTraceLog(24)
-    if _t8(unitPlayer == 7):
-        # (Line 25) if (unitCellY == 7) {
-        _t9 = EUDIf()
-        EUDTraceLog(25)
-        if _t9(unitCellY == 7):
-            # (Line 26) if(board.getBoard(unitCellX, unitCellY - 2)[[0]] == 0) {
-            _t10 = EUDIf()
-            EUDTraceLog(26)
-            if _t10(board.f_getBoard(unitCellX, unitCellY - 2)[0] == 0):
-                # (Line 27) loc.moveCLoc(unitCellX, unitCellY - 2); CreateUnit(1, 'Cursor', 'cLoc', P8);
-                EUDTraceLog(27)
-                loc.f_moveCLoc(unitCellX, unitCellY - 2)
-                # (Line 28) }
-                EUDTraceLog(27)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P8))
-                # (Line 29) }
-            EUDEndIf()
-            # (Line 30) if (unitCellY > 1) {
+    _t3 = EUDIf()
+    EUDTraceLog(15)
+    if _t3(EUDSCAnd()(1 <= unitCellY + pawnDy)(unitCellY + pawnDy <= 8)()):
+        # (Line 16) if(board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0) {
+        _t4 = EUDIf()
+        EUDTraceLog(16)
+        if _t4(board.f_getBoard(unitCellX, unitCellY + pawnDy)[0] == 0):
+            # (Line 17) loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(17)
+            loc.f_moveCLoc(unitCellX, unitCellY + pawnDy)
+            # (Line 18) }
+            EUDTraceLog(17)
+            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+            # (Line 19) if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
         EUDEndIf()
-        _t11 = EUDIf()
-        EUDTraceLog(30)
-        if _t11(unitCellY <= 1, neg=True):
-            # (Line 31) if(board.getBoard(unitCellX, unitCellY - 1)[[0]] == 0) {
-            _t12 = EUDIf()
-            EUDTraceLog(31)
-            if _t12(board.f_getBoard(unitCellX, unitCellY - 1)[0] == 0):
-                # (Line 32) loc.moveCLoc(unitCellX, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
-                EUDTraceLog(32)
-                loc.f_moveCLoc(unitCellX, unitCellY - 1)
-                # (Line 33) }
-                EUDTraceLog(32)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P8))
-                # (Line 34) if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY - 1)[[0]] == $P7) {
-            EUDEndIf()
-            _t13 = EUDIf()
-            EUDTraceLog(34)
-            if _t13(EUDSCAnd()(unitCellX <= 1, neg=True)(board.f_getBoard(unitCellX - 1, unitCellY - 1)[0] == 6)()):
-                # (Line 35) loc.moveCLoc(unitCellX - 1, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
-                EUDTraceLog(35)
-                loc.f_moveCLoc(unitCellX - 1, unitCellY - 1)
-                # (Line 36) }
-                EUDTraceLog(35)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P8))
-                # (Line 37) if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY - 1)[[0]] == $P7) {
-            EUDEndIf()
-            _t14 = EUDIf()
-            EUDTraceLog(37)
-            if _t14(EUDSCAnd()(unitCellX >= 8, neg=True)(board.f_getBoard(unitCellX + 1, unitCellY - 1)[0] == 6)()):
-                # (Line 38) loc.moveCLoc(unitCellX + 1, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
-                EUDTraceLog(38)
-                loc.f_moveCLoc(unitCellX + 1, unitCellY - 1)
-                # (Line 39) }
-                EUDTraceLog(38)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', P8))
-                # (Line 40) }
-            EUDEndIf()
-            # (Line 41) }
+        _t5 = EUDIf()
+        EUDTraceLog(19)
+        if _t5(EUDSCAnd()(unitCellX <= 1, neg=True)(board.f_getBoard(unitCellX - 1, unitCellY + pawnDy)[0] == opponentPlayer)()):
+            # (Line 20) loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(20)
+            loc.f_moveCLoc(unitCellX - 1, unitCellY + pawnDy)
+            # (Line 21) }
+            EUDTraceLog(20)
+            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+            # (Line 22) if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
         EUDEndIf()
-        # (Line 42) }
+        _t6 = EUDIf()
+        EUDTraceLog(22)
+        if _t6(EUDSCAnd()(unitCellX >= 8, neg=True)(board.f_getBoard(unitCellX + 1, unitCellY + pawnDy)[0] == opponentPlayer)()):
+            # (Line 23) loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(23)
+            loc.f_moveCLoc(unitCellX + 1, unitCellY + pawnDy)
+            # (Line 24) }
+            EUDTraceLog(23)
+            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+            # (Line 25) }
+        EUDEndIf()
+        # (Line 26) }
     EUDEndIf()

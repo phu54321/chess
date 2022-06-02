@@ -1,42 +1,26 @@
 import loc;
 import board;
 
-function movePawn(unitPlayer, unitCellX, unitCellY) {
-  if (unitPlayer == $P7) {
-    if (unitCellY == 2) {
-      if(board.getBoard(unitCellX, unitCellY + 2)[[0]] == 0) {
-        loc.moveCLoc(unitCellX, unitCellY + 2); CreateUnit(1, 'Cursor', 'cLoc', P7);
-      }
-    }
-    if (unitCellY < 8) {
-      if(board.getBoard(unitCellX, unitCellY + 1)[[0]] == 0) {
-        loc.moveCLoc(unitCellX, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
-      }
-      if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + 1)[[0]] == $P8) {
-        loc.moveCLoc(unitCellX - 1, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
-      }
-      if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + 1)[[0]] == $P8) {
-        loc.moveCLoc(unitCellX + 1, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
-      }
+function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
+  const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
+  const pawnDy = (unitPlayer == $P7) ? 1 : -1;
+  const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
+
+  if (unitCellY == pawnStartingY) {
+    if(board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0) {
+      loc.moveCLoc(unitCellX, unitCellY + pawnDy * 2); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
     }
   }
 
-  if (unitPlayer == $P8) {
-    if (unitCellY == 7) {
-      if(board.getBoard(unitCellX, unitCellY - 2)[[0]] == 0) {
-        loc.moveCLoc(unitCellX, unitCellY - 2); CreateUnit(1, 'Cursor', 'cLoc', P8);
-      }
+  if (1 <= unitCellY + pawnDy && unitCellY + pawnDy <= 8) {
+    if(board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0) {
+      loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
     }
-    if (unitCellY > 1) {
-      if(board.getBoard(unitCellX, unitCellY - 1)[[0]] == 0) {
-        loc.moveCLoc(unitCellX, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
-      }
-      if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY - 1)[[0]] == $P7) {
-        loc.moveCLoc(unitCellX - 1, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
-      }
-      if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY - 1)[[0]] == $P7) {
-        loc.moveCLoc(unitCellX + 1, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
-      }
+    if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
+      loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+    }
+    if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
+      loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
     }
   }
 }

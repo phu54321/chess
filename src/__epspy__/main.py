@@ -219,20 +219,20 @@ def afterTriggerExec():
             # (Line 30) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
             EUDTraceLog(30)
             unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
-            # (Line 33) if (1) {
+            # (Line 32) if (unitPlayer == whoShouldPlay) { // TODO: revive this
             _t3 = EUDIf()
-            EUDTraceLog(33)
-            if _t3(1):
+            EUDTraceLog(32)
+            if _t3(unitPlayer == whoShouldPlay):
                 # (Line 34) if (unitType == $U('Pawn')) {
                 _t4 = EUDIf()
                 EUDTraceLog(34)
                 if _t4(unitType == EncodeUnit('Pawn')):
                     # (Line 35) RemoveUnit('Cursor', Force2);
-                    # (Line 36) pawn.movePawn(unitPlayer, unitCellX, unitCellY);
+                    # (Line 36) pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
                     EUDTraceLog(35)
                     DoActions(RemoveUnit('Cursor', Force2))
                     EUDTraceLog(36)
-                    pawn.f_movePawn(unitPlayer, unitCellX, unitCellY)
+                    pawn.f_movePawn(unitPlayer, unitCellX, unitCellY, currentTurn)
                     # (Line 37) }
                     # (Line 39) if (unitType == $U('Rook')) {
                 EUDEndIf()

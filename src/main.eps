@@ -33,7 +33,7 @@ function afterTriggerExec () {
       // if (1) {
         if (unitType == $U('Pawn')) {
           RemoveUnit('Cursor', Force2);
-          pawn.movePawn(unitPlayer, unitCellX, unitCellY);
+          pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
         }
 
         if (unitType == $U('Rook')) {
