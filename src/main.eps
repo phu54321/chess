@@ -40,3 +40,7 @@ function onPluginStart() {
   loc.moveCLoc(7, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
   loc.moveCLoc(8, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
 }
+
+function afterTriggerExec () {
+  SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
+}

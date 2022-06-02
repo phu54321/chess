@@ -320,3 +320,11 @@ def onPluginStart():
     # (Line 42) }
     EUDTraceLog(41)
     DoActions(CreateUnit(1, 'Rook', 'cLoc', P8))
+    # (Line 44) function afterTriggerExec () {
+
+@EUDTracedFunc
+def afterTriggerExec():
+    # (Line 45) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
+    # (Line 46) }
+    EUDTraceLog(45)
+    DoActions(SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere'))
