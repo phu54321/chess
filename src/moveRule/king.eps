@@ -59,7 +59,7 @@ function moveKing(unitPlayer, unitCellX, unitCellY) {
     ) {
       const p, ut, lmt = board.getBoard(1, unitCellY);
       if (p == unitPlayer && ut == $U('Rook') && lmt == 0) {
-        loc.moveCLoc(unitCellX - 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+        loc.moveCLoc(unitCellX - 2, unitCellY); CreateUnit(1, 'Castling', 'cLoc', unitPlayer);
       }
     }
 
@@ -71,7 +71,7 @@ function moveKing(unitPlayer, unitCellX, unitCellY) {
     ) {
       const p, ut, lmt = board.getBoard(8, unitCellY);
       if (p == unitPlayer && ut == $U('Rook') && lmt == 0) {
-        loc.moveCLoc(unitCellX + 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+        loc.moveCLoc(unitCellX + 2, unitCellY); CreateUnit(1, 'Castling', 'cLoc', unitPlayer);
       }
     }
   }

@@ -30,14 +30,14 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
     if (unitCellX > 1) {
       const p, ut, lmt = board.getBoard(unitCellX - 1, unitCellY);
       if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
-        loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+        loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer);
       }
     }
 
     if (unitCellX < 8) {
       const p, ut, lmt = board.getBoard(unitCellX + 1, unitCellY);
       if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
-        loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+        loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer);
       }
     }
   }

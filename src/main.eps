@@ -15,6 +15,12 @@ var lastClickedUnitPtr = 0;
 var whoShouldPlay = $P7;
 var currentTurn = 1;
 
+function RemoveCursors() {
+  RemoveUnit('Cursor', Force2);
+  RemoveUnit('EnPassent', Force2);
+  RemoveUnit('Castling', Force2);
+}
+
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
   const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
@@ -29,35 +35,34 @@ function afterTriggerExec () {
       const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
       const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
 
-      if (unitPlayer == whoShouldPlay) { // TODO: revive this
-      // if (1) {
+      // if (unitPlayer == whoShouldPlay) { // TODO: revive this
+      if (1) {
         if (unitType == $U('Pawn')) {
-          RemoveUnit('Cursor', Force2);
+          RemoveCursors();
           pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
         }
 
         if (unitType == $U('Rook')) {
-          RemoveUnit('Cursor', Force2);
+          RemoveCursors();
           rook.moveRook(unitPlayer, unitCellX, unitCellY);
         }
 
         if (unitType == $U('Bishop')) {
-          RemoveUnit('Cursor', Force2);
+          RemoveCursors();
           bishop.moveBishop(unitPlayer, unitCellX, unitCellY);
         }
 
         if (unitType == $U('Queen')) {
-          RemoveUnit('Cursor', Force2);
+          RemoveCursors();
           queen.moveQueen(unitPlayer, unitCellX, unitCellY);
         }
 
         if (unitType == $U('King')) {
-          RemoveUnit('Cursor', Force2);
+          RemoveCursors();
           king.moveKing(unitPlayer, unitCellX, unitCellY);
         }
 
         if (unitType == $U('Knight')) {
-          RemoveUnit('Cursor', Force2);
           knight.moveKnight(unitPlayer, unitCellX, unitCellY);
         }
 
@@ -72,7 +77,56 @@ function afterTriggerExec () {
           board.removeBoard(unitCellX, unitCellY);
           board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
           board.removeBoard(lastUnitCellX, lastUnitCellY);
-          RemoveUnit('Cursor', Force2);
+          RemoveCursors();
+
+          whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+          currentTurn++;
+        }
+
+        else if (unitType == $U('EnPassent')) {
+          // lastClickedUnitPtr를 이 위치로 옮기면 됩니다.
+          const lastUnitEPD = EPD(lastClickedUnitPtr);
+          const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+          const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+          const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+          const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+
+          board.removeBoard(unitCellX, unitCellY);
+          board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
+          board.removeBoard(lastUnitCellX, lastUnitCellY);
+          board.removeBoard(unitCellX, lastUnitCellY);
+          RemoveCursors();
+
+          whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+          currentTurn++;
+        }
+
+        else if (unitType == $U('Castling')) {
+          // lastClickedUnitPtr를 이 위치로 옮기면 됩니다.
+          const lastUnitEPD = EPD(lastClickedUnitPtr);
+          const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+          const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+          const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+          const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+
+          board.removeBoard(unitCellX, unitCellY);
+          board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
+          board.removeBoard(lastUnitCellX, lastUnitCellY);
+
+          // 룩을 옮기자.
+          // lastUnitCellX: 원래 킹의 위치
+          // unitCellX: 킹의 새로운 위치
+          //  : 룩의 위치는 1 또는 8.
+          if (unitCellX < lastUnitCellX) {
+            // 룩은 (1, unitCellY)에 있습니다.
+            board.removeBoard(1, unitCellY);
+            board.placeBoard(unitCellX + 1, unitCellY, $U('Rook'), unitPlayer, currentTurn);
+          } else {
+            // 룩은 (8, unitCellY)에 있습니다.
+            board.removeBoard(8, unitCellY);
+            board.placeBoard(unitCellX - 1, unitCellY, $U('Rook'), unitPlayer, currentTurn);
+          }
+          RemoveCursors();
 
           whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
           currentTurn++;

@@ -241,12 +241,12 @@ def f_movePawn(unitPlayer, unitCellX, unitCellY, currentTurn):
             _t9 = EUDIf()
             EUDTraceLog(32)
             if _t9(EUDSCAnd()(p == opponentPlayer)(ut == EncodeUnit('Pawn'))(lmt == currentTurn - 1)()):
-                # (Line 33) loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                # (Line 33) loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer);
                 EUDTraceLog(33)
                 loc.f_moveCLoc(unitCellX - 1, unitCellY + pawnDy)
                 # (Line 34) }
                 EUDTraceLog(33)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                DoActions(CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer))
                 # (Line 35) }
             EUDEndIf()
             # (Line 37) if (unitCellX < 8) {
@@ -261,12 +261,12 @@ def f_movePawn(unitPlayer, unitCellX, unitCellY, currentTurn):
             _t11 = EUDIf()
             EUDTraceLog(39)
             if _t11(EUDSCAnd()(p == opponentPlayer)(ut == EncodeUnit('Pawn'))(lmt == currentTurn - 1)()):
-                # (Line 40) loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                # (Line 40) loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer);
                 EUDTraceLog(40)
                 loc.f_moveCLoc(unitCellX + 1, unitCellY + pawnDy)
                 # (Line 41) }
                 EUDTraceLog(40)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                DoActions(CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer))
                 # (Line 42) }
             EUDEndIf()
             # (Line 43) }

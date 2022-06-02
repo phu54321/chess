@@ -184,162 +184,272 @@ _IGVA([whoShouldPlay], lambda: [6])
 # (Line 16) var currentTurn = 1;
 currentTurn = EUDCreateVariables(1)
 _IGVA([currentTurn], lambda: [1])
-# (Line 18) function afterTriggerExec () {
+# (Line 18) function RemoveCursors() {
+@EUDTracedFunc
+def RemoveCursors():
+    # (Line 19) RemoveUnit('Cursor', Force2);
+    # (Line 20) RemoveUnit('EnPassent', Force2);
+    EUDTraceLog(19)
+    DoActions(RemoveUnit('Cursor', Force2))
+    # (Line 21) RemoveUnit('Castling', Force2);
+    EUDTraceLog(20)
+    DoActions(RemoveUnit('EnPassent', Force2))
+    # (Line 22) }
+    EUDTraceLog(21)
+    DoActions(RemoveUnit('Castling', Force2))
+    # (Line 24) function afterTriggerExec () {
+
 @EUDTracedFunc
 def afterTriggerExec():
-    # (Line 19) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
-    # (Line 20) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
-    EUDTraceLog(19)
+    # (Line 25) SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
+    # (Line 26) const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
+    EUDTraceLog(25)
     DoActions(SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere'))
-    EUDTraceLog(20)
+    EUDTraceLog(26)
     clickedUnitPtr = f_dwread_epd(EPD(0x6284E8))
-    # (Line 23) if (lastClickedUnitPtr != clickedUnitPtr) {
+    # (Line 29) if (lastClickedUnitPtr != clickedUnitPtr) {
     _t1 = EUDIf()
-    EUDTraceLog(23)
+    EUDTraceLog(29)
     if _t1(lastClickedUnitPtr == clickedUnitPtr, neg=True):
-        # (Line 24) if (clickedUnitPtr != 0) {
+        # (Line 30) if (clickedUnitPtr != 0) {
         _t2 = EUDIf()
-        EUDTraceLog(24)
+        EUDTraceLog(30)
         if _t2(clickedUnitPtr == 0, neg=True):
-            # (Line 25) const unitEPD = EPD(clickedUnitPtr);
-            EUDTraceLog(25)
+            # (Line 31) const unitEPD = EPD(clickedUnitPtr);
+            EUDTraceLog(31)
             unitEPD = EPD(clickedUnitPtr)
-            # (Line 26) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
-            EUDTraceLog(26)
-            unitX, unitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(unitEPD + 0x28 // 4)), [0, 1])])
-            # (Line 27) const unitCellX = (unitX - loc.c11x) / 64 + 1;
-            EUDTraceLog(27)
-            unitCellX = (unitX - loc.c11x) // 64 + 1
-            # (Line 28) const unitCellY = (unitY - loc.c11y) / 64 + 1;
-            EUDTraceLog(28)
-            unitCellY = (unitY - loc.c11y) // 64 + 1
-            # (Line 29) const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
-            EUDTraceLog(29)
-            unitPlayer = f_bread_epd(unitEPD + 0x4C // 4, 0)
-            # (Line 30) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
-            EUDTraceLog(30)
-            unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
-            # (Line 32) if (unitPlayer == whoShouldPlay) { // TODO: revive this
-            _t3 = EUDIf()
+            # (Line 32) const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
             EUDTraceLog(32)
-            if _t3(unitPlayer == whoShouldPlay):
-                # (Line 34) if (unitType == $U('Pawn')) {
+            unitX, unitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(unitEPD + 0x28 // 4)), [0, 1])])
+            # (Line 33) const unitCellX = (unitX - loc.c11x) / 64 + 1;
+            EUDTraceLog(33)
+            unitCellX = (unitX - loc.c11x) // 64 + 1
+            # (Line 34) const unitCellY = (unitY - loc.c11y) / 64 + 1;
+            EUDTraceLog(34)
+            unitCellY = (unitY - loc.c11y) // 64 + 1
+            # (Line 35) const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
+            EUDTraceLog(35)
+            unitPlayer = f_bread_epd(unitEPD + 0x4C // 4, 0)
+            # (Line 36) const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
+            EUDTraceLog(36)
+            unitType = f_wread_epd(unitEPD + (0x64 // 4), 0)
+            # (Line 39) if (1) {
+            _t3 = EUDIf()
+            EUDTraceLog(39)
+            if _t3(1):
+                # (Line 40) if (unitType == $U('Pawn')) {
                 _t4 = EUDIf()
-                EUDTraceLog(34)
+                EUDTraceLog(40)
                 if _t4(unitType == EncodeUnit('Pawn')):
-                    # (Line 35) RemoveUnit('Cursor', Force2);
-                    # (Line 36) pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
-                    EUDTraceLog(35)
-                    DoActions(RemoveUnit('Cursor', Force2))
-                    EUDTraceLog(36)
+                    # (Line 41) RemoveCursors();
+                    EUDTraceLog(41)
+                    RemoveCursors()
+                    # (Line 42) pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
+                    EUDTraceLog(42)
                     pawn.f_movePawn(unitPlayer, unitCellX, unitCellY, currentTurn)
-                    # (Line 37) }
-                    # (Line 39) if (unitType == $U('Rook')) {
+                    # (Line 43) }
+                    # (Line 45) if (unitType == $U('Rook')) {
                 EUDEndIf()
                 _t5 = EUDIf()
-                EUDTraceLog(39)
+                EUDTraceLog(45)
                 if _t5(unitType == EncodeUnit('Rook')):
-                    # (Line 40) RemoveUnit('Cursor', Force2);
-                    # (Line 41) rook.moveRook(unitPlayer, unitCellX, unitCellY);
-                    EUDTraceLog(40)
-                    DoActions(RemoveUnit('Cursor', Force2))
-                    EUDTraceLog(41)
+                    # (Line 46) RemoveCursors();
+                    EUDTraceLog(46)
+                    RemoveCursors()
+                    # (Line 47) rook.moveRook(unitPlayer, unitCellX, unitCellY);
+                    EUDTraceLog(47)
                     rook.f_moveRook(unitPlayer, unitCellX, unitCellY)
-                    # (Line 42) }
-                    # (Line 44) if (unitType == $U('Bishop')) {
+                    # (Line 48) }
+                    # (Line 50) if (unitType == $U('Bishop')) {
                 EUDEndIf()
                 _t6 = EUDIf()
-                EUDTraceLog(44)
+                EUDTraceLog(50)
                 if _t6(unitType == EncodeUnit('Bishop')):
-                    # (Line 45) RemoveUnit('Cursor', Force2);
-                    # (Line 46) bishop.moveBishop(unitPlayer, unitCellX, unitCellY);
-                    EUDTraceLog(45)
-                    DoActions(RemoveUnit('Cursor', Force2))
-                    EUDTraceLog(46)
+                    # (Line 51) RemoveCursors();
+                    EUDTraceLog(51)
+                    RemoveCursors()
+                    # (Line 52) bishop.moveBishop(unitPlayer, unitCellX, unitCellY);
+                    EUDTraceLog(52)
                     bishop.f_moveBishop(unitPlayer, unitCellX, unitCellY)
-                    # (Line 47) }
-                    # (Line 49) if (unitType == $U('Queen')) {
+                    # (Line 53) }
+                    # (Line 55) if (unitType == $U('Queen')) {
                 EUDEndIf()
                 _t7 = EUDIf()
-                EUDTraceLog(49)
+                EUDTraceLog(55)
                 if _t7(unitType == EncodeUnit('Queen')):
-                    # (Line 50) RemoveUnit('Cursor', Force2);
-                    # (Line 51) queen.moveQueen(unitPlayer, unitCellX, unitCellY);
-                    EUDTraceLog(50)
-                    DoActions(RemoveUnit('Cursor', Force2))
-                    EUDTraceLog(51)
+                    # (Line 56) RemoveCursors();
+                    EUDTraceLog(56)
+                    RemoveCursors()
+                    # (Line 57) queen.moveQueen(unitPlayer, unitCellX, unitCellY);
+                    EUDTraceLog(57)
                     queen.f_moveQueen(unitPlayer, unitCellX, unitCellY)
-                    # (Line 52) }
-                    # (Line 54) if (unitType == $U('King')) {
+                    # (Line 58) }
+                    # (Line 60) if (unitType == $U('King')) {
                 EUDEndIf()
                 _t8 = EUDIf()
-                EUDTraceLog(54)
+                EUDTraceLog(60)
                 if _t8(unitType == EncodeUnit('King')):
-                    # (Line 55) RemoveUnit('Cursor', Force2);
-                    # (Line 56) king.moveKing(unitPlayer, unitCellX, unitCellY);
-                    EUDTraceLog(55)
-                    DoActions(RemoveUnit('Cursor', Force2))
-                    EUDTraceLog(56)
+                    # (Line 61) RemoveCursors();
+                    EUDTraceLog(61)
+                    RemoveCursors()
+                    # (Line 62) king.moveKing(unitPlayer, unitCellX, unitCellY);
+                    EUDTraceLog(62)
                     king.f_moveKing(unitPlayer, unitCellX, unitCellY)
-                    # (Line 57) }
-                    # (Line 59) if (unitType == $U('Knight')) {
+                    # (Line 63) }
+                    # (Line 65) if (unitType == $U('Knight')) {
                 EUDEndIf()
                 _t9 = EUDIf()
-                EUDTraceLog(59)
+                EUDTraceLog(65)
                 if _t9(unitType == EncodeUnit('Knight')):
-                    # (Line 60) RemoveUnit('Cursor', Force2);
-                    # (Line 61) knight.moveKnight(unitPlayer, unitCellX, unitCellY);
-                    EUDTraceLog(60)
-                    DoActions(RemoveUnit('Cursor', Force2))
-                    EUDTraceLog(61)
-                    knight.f_moveKnight(unitPlayer, unitCellX, unitCellY)
-                    # (Line 62) }
-                    # (Line 64) else if (unitType == $U('Cursor')) {
-                _t10 = EUDElseIf()
-                EUDTraceLog(64)
-                if _t10(unitType == EncodeUnit('Cursor')):
-                    # (Line 66) const lastUnitEPD = EPD(lastClickedUnitPtr);
+                    # (Line 66) knight.moveKnight(unitPlayer, unitCellX, unitCellY);
                     EUDTraceLog(66)
+                    knight.f_moveKnight(unitPlayer, unitCellX, unitCellY)
+                    # (Line 67) }
+                    # (Line 69) else if (unitType == $U('Cursor')) {
+                _t10 = EUDElseIf()
+                EUDTraceLog(69)
+                if _t10(unitType == EncodeUnit('Cursor')):
+                    # (Line 71) const lastUnitEPD = EPD(lastClickedUnitPtr);
+                    EUDTraceLog(71)
                     lastUnitEPD = EPD(lastClickedUnitPtr)
-                    # (Line 67) const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
-                    EUDTraceLog(67)
-                    lastUnitX, lastUnitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(lastUnitEPD + 0x28 // 4)), [0, 1])])
-                    # (Line 68) const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
-                    EUDTraceLog(68)
-                    lastUnitCellX = (lastUnitX - loc.c11x) // 64 + 1
-                    # (Line 69) const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
-                    EUDTraceLog(69)
-                    lastUnitCellY = (lastUnitY - loc.c11y) // 64 + 1
-                    # (Line 70) const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
-                    EUDTraceLog(70)
-                    lastUnitType = f_wread_epd(lastUnitEPD + (0x64 // 4), 0)
-                    # (Line 72) board.removeBoard(unitCellX, unitCellY);
+                    # (Line 72) const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
                     EUDTraceLog(72)
-                    board.f_removeBoard(unitCellX, unitCellY)
-                    # (Line 73) board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
+                    lastUnitX, lastUnitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(lastUnitEPD + 0x28 // 4)), [0, 1])])
+                    # (Line 73) const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
                     EUDTraceLog(73)
-                    board.f_placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn)
-                    # (Line 74) board.removeBoard(lastUnitCellX, lastUnitCellY);
+                    lastUnitCellX = (lastUnitX - loc.c11x) // 64 + 1
+                    # (Line 74) const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
                     EUDTraceLog(74)
-                    board.f_removeBoard(lastUnitCellX, lastUnitCellY)
-                    # (Line 75) RemoveUnit('Cursor', Force2);
-                    # (Line 77) whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+                    lastUnitCellY = (lastUnitY - loc.c11y) // 64 + 1
+                    # (Line 75) const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
                     EUDTraceLog(75)
-                    DoActions(RemoveUnit('Cursor', Force2))
+                    lastUnitType = f_wread_epd(lastUnitEPD + (0x64 // 4), 0)
+                    # (Line 77) board.removeBoard(unitCellX, unitCellY);
                     EUDTraceLog(77)
-                    whoShouldPlay << (EUDTernary((whoShouldPlay == 6))(7)(6))
-                    # (Line 78) currentTurn++;
+                    board.f_removeBoard(unitCellX, unitCellY)
+                    # (Line 78) board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
                     EUDTraceLog(78)
+                    board.f_placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn)
+                    # (Line 79) board.removeBoard(lastUnitCellX, lastUnitCellY);
+                    EUDTraceLog(79)
+                    board.f_removeBoard(lastUnitCellX, lastUnitCellY)
+                    # (Line 80) RemoveCursors();
+                    EUDTraceLog(80)
+                    RemoveCursors()
+                    # (Line 82) whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+                    EUDTraceLog(82)
+                    whoShouldPlay << (EUDTernary((whoShouldPlay == 6))(7)(6))
+                    # (Line 83) currentTurn++;
+                    EUDTraceLog(83)
                     currentTurn.__iadd__(1)
-                    # (Line 79) }
-                    # (Line 80) }
+                    # (Line 84) }
+                    # (Line 86) else if (unitType == $U('EnPassent')) {
+                _t11 = EUDElseIf()
+                EUDTraceLog(86)
+                if _t11(unitType == EncodeUnit('EnPassent')):
+                    # (Line 88) const lastUnitEPD = EPD(lastClickedUnitPtr);
+                    EUDTraceLog(88)
+                    lastUnitEPD = EPD(lastClickedUnitPtr)
+                    # (Line 89) const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+                    EUDTraceLog(89)
+                    lastUnitX, lastUnitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(lastUnitEPD + 0x28 // 4)), [0, 1])])
+                    # (Line 90) const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+                    EUDTraceLog(90)
+                    lastUnitCellX = (lastUnitX - loc.c11x) // 64 + 1
+                    # (Line 91) const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+                    EUDTraceLog(91)
+                    lastUnitCellY = (lastUnitY - loc.c11y) // 64 + 1
+                    # (Line 92) const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+                    EUDTraceLog(92)
+                    lastUnitType = f_wread_epd(lastUnitEPD + (0x64 // 4), 0)
+                    # (Line 94) board.removeBoard(unitCellX, unitCellY);
+                    EUDTraceLog(94)
+                    board.f_removeBoard(unitCellX, unitCellY)
+                    # (Line 95) board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
+                    EUDTraceLog(95)
+                    board.f_placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn)
+                    # (Line 96) board.removeBoard(lastUnitCellX, lastUnitCellY);
+                    EUDTraceLog(96)
+                    board.f_removeBoard(lastUnitCellX, lastUnitCellY)
+                    # (Line 97) board.removeBoard(unitCellX, lastUnitCellY);
+                    EUDTraceLog(97)
+                    board.f_removeBoard(unitCellX, lastUnitCellY)
+                    # (Line 98) RemoveCursors();
+                    EUDTraceLog(98)
+                    RemoveCursors()
+                    # (Line 100) whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+                    EUDTraceLog(100)
+                    whoShouldPlay << (EUDTernary((whoShouldPlay == 6))(7)(6))
+                    # (Line 101) currentTurn++;
+                    EUDTraceLog(101)
+                    currentTurn.__iadd__(1)
+                    # (Line 102) }
+                    # (Line 104) else if (unitType == $U('Castling')) {
+                _t12 = EUDElseIf()
+                EUDTraceLog(104)
+                if _t12(unitType == EncodeUnit('Castling')):
+                    # (Line 106) const lastUnitEPD = EPD(lastClickedUnitPtr);
+                    EUDTraceLog(106)
+                    lastUnitEPD = EPD(lastClickedUnitPtr)
+                    # (Line 107) const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+                    EUDTraceLog(107)
+                    lastUnitX, lastUnitY = List2Assignable([_SRET(f_dwbreak(f_dwread_epd(lastUnitEPD + 0x28 // 4)), [0, 1])])
+                    # (Line 108) const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+                    EUDTraceLog(108)
+                    lastUnitCellX = (lastUnitX - loc.c11x) // 64 + 1
+                    # (Line 109) const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+                    EUDTraceLog(109)
+                    lastUnitCellY = (lastUnitY - loc.c11y) // 64 + 1
+                    # (Line 110) const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+                    EUDTraceLog(110)
+                    lastUnitType = f_wread_epd(lastUnitEPD + (0x64 // 4), 0)
+                    # (Line 112) board.removeBoard(unitCellX, unitCellY);
+                    EUDTraceLog(112)
+                    board.f_removeBoard(unitCellX, unitCellY)
+                    # (Line 113) board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
+                    EUDTraceLog(113)
+                    board.f_placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn)
+                    # (Line 114) board.removeBoard(lastUnitCellX, lastUnitCellY);
+                    EUDTraceLog(114)
+                    board.f_removeBoard(lastUnitCellX, lastUnitCellY)
+                    # (Line 120) if (unitCellX < lastUnitCellX) {
+                    _t13 = EUDIf()
+                    EUDTraceLog(120)
+                    if _t13(unitCellX >= lastUnitCellX, neg=True):
+                        # (Line 122) board.removeBoard(1, unitCellY);
+                        EUDTraceLog(122)
+                        board.f_removeBoard(1, unitCellY)
+                        # (Line 123) board.placeBoard(unitCellX + 1, unitCellY, $U('Rook'), unitPlayer, currentTurn);
+                        EUDTraceLog(123)
+                        board.f_placeBoard(unitCellX + 1, unitCellY, EncodeUnit('Rook'), unitPlayer, currentTurn)
+                        # (Line 124) } else {
+                    if EUDElse()():
+                        # (Line 126) board.removeBoard(8, unitCellY);
+                        EUDTraceLog(126)
+                        board.f_removeBoard(8, unitCellY)
+                        # (Line 127) board.placeBoard(unitCellX - 1, unitCellY, $U('Rook'), unitPlayer, currentTurn);
+                        EUDTraceLog(127)
+                        board.f_placeBoard(unitCellX - 1, unitCellY, EncodeUnit('Rook'), unitPlayer, currentTurn)
+                        # (Line 128) }
+                        # (Line 129) RemoveCursors();
+                    EUDEndIf()
+                    EUDTraceLog(129)
+                    RemoveCursors()
+                    # (Line 131) whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+                    EUDTraceLog(131)
+                    whoShouldPlay << (EUDTernary((whoShouldPlay == 6))(7)(6))
+                    # (Line 132) currentTurn++;
+                    EUDTraceLog(132)
+                    currentTurn.__iadd__(1)
+                    # (Line 133) }
+                    # (Line 134) }
                 EUDEndIf()
-                # (Line 81) }
+                # (Line 135) }
             EUDEndIf()
-            # (Line 82) lastClickedUnitPtr = clickedUnitPtr;
+            # (Line 136) lastClickedUnitPtr = clickedUnitPtr;
         EUDEndIf()
-        EUDTraceLog(82)
+        EUDTraceLog(136)
         lastClickedUnitPtr << (clickedUnitPtr)
-        # (Line 83) }
-        # (Line 84) }
+        # (Line 137) }
+        # (Line 138) }
     EUDEndIf()

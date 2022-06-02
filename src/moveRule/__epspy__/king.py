@@ -261,12 +261,12 @@ def f_moveKing(unitPlayer, unitCellX, unitCellY):
             _t9 = EUDIf()
             EUDTraceLog(61)
             if _t9(EUDSCAnd()(p == unitPlayer)(ut == EncodeUnit('Rook'))(lmt == 0)()):
-                # (Line 62) loc.moveCLoc(unitCellX - 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                # (Line 62) loc.moveCLoc(unitCellX - 2, unitCellY); CreateUnit(1, 'Castling', 'cLoc', unitPlayer);
                 EUDTraceLog(62)
                 loc.f_moveCLoc(unitCellX - 2, unitCellY)
                 # (Line 63) }
                 EUDTraceLog(62)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                DoActions(CreateUnit(1, 'Castling', 'cLoc', unitPlayer))
                 # (Line 64) }
             EUDEndIf()
             # (Line 67) if (
@@ -285,12 +285,12 @@ def f_moveKing(unitPlayer, unitCellX, unitCellY):
             _t11 = EUDIf()
             EUDTraceLog(73)
             if _t11(EUDSCAnd()(p == unitPlayer)(ut == EncodeUnit('Rook'))(lmt == 0)()):
-                # (Line 74) loc.moveCLoc(unitCellX + 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                # (Line 74) loc.moveCLoc(unitCellX + 2, unitCellY); CreateUnit(1, 'Castling', 'cLoc', unitPlayer);
                 EUDTraceLog(74)
                 loc.f_moveCLoc(unitCellX + 2, unitCellY)
                 # (Line 75) }
                 EUDTraceLog(74)
-                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                DoActions(CreateUnit(1, 'Castling', 'cLoc', unitPlayer))
                 # (Line 76) }
             EUDEndIf()
             # (Line 77) }
