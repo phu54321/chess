@@ -5,6 +5,7 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
   const pawnDy = (unitPlayer == $P7) ? 1 : -1;
   const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
+  const enPassentY = (unitPlayer == $P7) ? 5 : 4;
 
   if (unitCellY == pawnStartingY) {
     if(board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0) {
@@ -21,6 +22,23 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
     }
     if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
       loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+    }
+  }
+
+  // 앙파상
+  if (unitCellY == enPassentY) {
+    if (unitCellX > 1) {
+      const p, ut, lmt = board.getBoard(unitCellX - 1, unitCellY);
+      if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
+        loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      }
+    }
+
+    if (unitCellX < 8) {
+      const p, ut, lmt = board.getBoard(unitCellX + 1, unitCellY);
+      if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
+        loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      }
     }
   }
 }

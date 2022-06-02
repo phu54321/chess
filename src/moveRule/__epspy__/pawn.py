@@ -167,60 +167,109 @@ def f_movePawn(unitPlayer, unitCellX, unitCellY, currentTurn):
     # (Line 7) const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
     EUDTraceLog(7)
     pawnStartingY = EUDTernary((unitPlayer == 6))(2)(7)
-    # (Line 9) if (unitCellY == pawnStartingY) {
+    # (Line 8) const enPassentY = (unitPlayer == $P7) ? 5 : 4;
+    EUDTraceLog(8)
+    enPassentY = EUDTernary((unitPlayer == 6))(5)(4)
+    # (Line 10) if (unitCellY == pawnStartingY) {
     _t1 = EUDIf()
-    EUDTraceLog(9)
+    EUDTraceLog(10)
     if _t1(unitCellY == pawnStartingY):
-        # (Line 10) if(board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0) {
+        # (Line 11) if(board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0) {
         _t2 = EUDIf()
-        EUDTraceLog(10)
+        EUDTraceLog(11)
         if _t2(board.f_getBoard(unitCellX, unitCellY + pawnDy * 2)[0] == 0):
-            # (Line 11) loc.moveCLoc(unitCellX, unitCellY + pawnDy * 2); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-            EUDTraceLog(11)
+            # (Line 12) loc.moveCLoc(unitCellX, unitCellY + pawnDy * 2); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(12)
             loc.f_moveCLoc(unitCellX, unitCellY + pawnDy * 2)
-            # (Line 12) }
-            EUDTraceLog(11)
-            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
             # (Line 13) }
+            EUDTraceLog(12)
+            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+            # (Line 14) }
         EUDEndIf()
-        # (Line 15) if (1 <= unitCellY + pawnDy && unitCellY + pawnDy <= 8) {
+        # (Line 16) if (1 <= unitCellY + pawnDy && unitCellY + pawnDy <= 8) {
     EUDEndIf()
     _t3 = EUDIf()
-    EUDTraceLog(15)
+    EUDTraceLog(16)
     if _t3(EUDSCAnd()(1 <= unitCellY + pawnDy)(unitCellY + pawnDy <= 8)()):
-        # (Line 16) if(board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0) {
+        # (Line 17) if(board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0) {
         _t4 = EUDIf()
-        EUDTraceLog(16)
+        EUDTraceLog(17)
         if _t4(board.f_getBoard(unitCellX, unitCellY + pawnDy)[0] == 0):
-            # (Line 17) loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-            EUDTraceLog(17)
+            # (Line 18) loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(18)
             loc.f_moveCLoc(unitCellX, unitCellY + pawnDy)
-            # (Line 18) }
-            EUDTraceLog(17)
+            # (Line 19) }
+            EUDTraceLog(18)
             DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
-            # (Line 19) if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
+            # (Line 20) if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
         EUDEndIf()
         _t5 = EUDIf()
-        EUDTraceLog(19)
+        EUDTraceLog(20)
         if _t5(EUDSCAnd()(unitCellX <= 1, neg=True)(board.f_getBoard(unitCellX - 1, unitCellY + pawnDy)[0] == opponentPlayer)()):
-            # (Line 20) loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-            EUDTraceLog(20)
+            # (Line 21) loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(21)
             loc.f_moveCLoc(unitCellX - 1, unitCellY + pawnDy)
-            # (Line 21) }
-            EUDTraceLog(20)
+            # (Line 22) }
+            EUDTraceLog(21)
             DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
-            # (Line 22) if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
+            # (Line 23) if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
         EUDEndIf()
         _t6 = EUDIf()
-        EUDTraceLog(22)
+        EUDTraceLog(23)
         if _t6(EUDSCAnd()(unitCellX >= 8, neg=True)(board.f_getBoard(unitCellX + 1, unitCellY + pawnDy)[0] == opponentPlayer)()):
-            # (Line 23) loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-            EUDTraceLog(23)
+            # (Line 24) loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+            EUDTraceLog(24)
             loc.f_moveCLoc(unitCellX + 1, unitCellY + pawnDy)
-            # (Line 24) }
-            EUDTraceLog(23)
-            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
             # (Line 25) }
+            EUDTraceLog(24)
+            DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+            # (Line 26) }
         EUDEndIf()
-        # (Line 26) }
+        # (Line 29) if (unitCellY == enPassentY) {
+    EUDEndIf()
+    _t7 = EUDIf()
+    EUDTraceLog(29)
+    if _t7(unitCellY == enPassentY):
+        # (Line 30) if (unitCellX > 1) {
+        _t8 = EUDIf()
+        EUDTraceLog(30)
+        if _t8(unitCellX <= 1, neg=True):
+            # (Line 31) const p, ut, lmt = board.getBoard(unitCellX - 1, unitCellY);
+            EUDTraceLog(31)
+            p, ut, lmt = List2Assignable([board.f_getBoard(unitCellX - 1, unitCellY)])
+            # (Line 32) if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
+            _t9 = EUDIf()
+            EUDTraceLog(32)
+            if _t9(EUDSCAnd()(p == opponentPlayer)(ut == EncodeUnit('Pawn'))(lmt == currentTurn - 1)()):
+                # (Line 33) loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                EUDTraceLog(33)
+                loc.f_moveCLoc(unitCellX - 1, unitCellY + pawnDy)
+                # (Line 34) }
+                EUDTraceLog(33)
+                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                # (Line 35) }
+            EUDEndIf()
+            # (Line 37) if (unitCellX < 8) {
+        EUDEndIf()
+        _t10 = EUDIf()
+        EUDTraceLog(37)
+        if _t10(unitCellX >= 8, neg=True):
+            # (Line 38) const p, ut, lmt = board.getBoard(unitCellX + 1, unitCellY);
+            EUDTraceLog(38)
+            p, ut, lmt = List2Assignable([board.f_getBoard(unitCellX + 1, unitCellY)])
+            # (Line 39) if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
+            _t11 = EUDIf()
+            EUDTraceLog(39)
+            if _t11(EUDSCAnd()(p == opponentPlayer)(ut == EncodeUnit('Pawn'))(lmt == currentTurn - 1)()):
+                # (Line 40) loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                EUDTraceLog(40)
+                loc.f_moveCLoc(unitCellX + 1, unitCellY + pawnDy)
+                # (Line 41) }
+                EUDTraceLog(40)
+                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                # (Line 42) }
+            EUDEndIf()
+            # (Line 43) }
+        EUDEndIf()
+        # (Line 44) }
     EUDEndIf()
