@@ -1,0 +1,8 @@
+[main]
+input: basemap.scx
+output: EUD Chess.scx
+debug: 1
+
+
+[eudTurbo]
+[src/main.eps]

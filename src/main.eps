@@ -1,0 +1,14 @@
+import loc;
+
+function onPluginStart() {
+  setcurpl(Player1);
+
+  var x, y;
+  for (x = 1 ; x <= 8 ; x++) {
+    for ( y = 1 ; y <= 8 ; y++) {
+      // cLoc을 (x, y) 칸으로 옮긴다.
+      loc.moveCLoc(x, y);
+      CreateUnit(1, 'Pawn', 'cLoc', P8);
+    }
+  }
+}
