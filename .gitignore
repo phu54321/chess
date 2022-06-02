@@ -306,3 +306,5 @@ cython_debug/
 # epmap
 *.epmap
 *.tmp
+
+__epspy__
