@@ -1,7 +1,7 @@
 import loc;
 import board;
 
-function moveRook(unitPlayer, unitCellX, unitCellY) {
+function moveQueen(unitPlayer, unitCellX, unitCellY) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
 
   var x, y;
@@ -10,6 +10,11 @@ function moveRook(unitPlayer, unitCellX, unitCellY) {
     unitCellX,
     unitCellX,
     unitCellX - 1,
+    unitCellX + 1,
+
+    unitCellX - 1,
+    unitCellX - 1,
+    unitCellX + 1,
     unitCellX + 1
   ];
 
@@ -17,13 +22,23 @@ function moveRook(unitPlayer, unitCellX, unitCellY) {
     unitCellY - 1,
     unitCellY + 1,
     unitCellY,
-    unitCellY
+    unitCellY,
+
+    unitCellY - 1,
+    unitCellY + 1,
+    unitCellY - 1,
+    unitCellY + 1
   ];
 
   const dxList = [
     0,
     0,
     -1,
+    1,
+
+    -1,
+    -1,
+    1,
     1
   ];
 
@@ -31,10 +46,15 @@ function moveRook(unitPlayer, unitCellX, unitCellY) {
     -1,
     1,
     0,
-    0
+    0,
+
+    -1,
+    1,
+    -1,
+    1
   ];
 
-  for (var i = 0 ; i < 4 ; i++) {
+  for (var i = 0 ; i < 8 ; i++) {
     x = initialXList[i];
     y = initialYList[i];
     while (1 <= x && x <= 8 && 1 <= y && y <= 8) {

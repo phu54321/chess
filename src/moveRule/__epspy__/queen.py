@@ -155,9 +155,9 @@ def _LSH(l, r):
 import loc
 # (Line 2) import board;
 import board
-# (Line 4) function moveRook(unitPlayer, unitCellX, unitCellY) {
+# (Line 4) function moveQueen(unitPlayer, unitCellX, unitCellY) {
 @EUDTracedFunc
-def f_moveRook(unitPlayer, unitCellX, unitCellY):
+def f_moveQueen(unitPlayer, unitCellX, unitCellY):
     # (Line 5) const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
     EUDTraceLog(5)
     opponentPlayer = EUDTernary((unitPlayer == 6))(7)(6)
@@ -167,95 +167,111 @@ def f_moveRook(unitPlayer, unitCellX, unitCellY):
     # (Line 10) unitCellX,
     # (Line 11) unitCellX,
     # (Line 12) unitCellX - 1,
-    # (Line 13) unitCellX + 1
-    # (Line 14) ];
+    # (Line 13) unitCellX + 1,
+    # (Line 15) unitCellX - 1,
+    # (Line 16) unitCellX - 1,
+    # (Line 17) unitCellX + 1,
+    # (Line 18) unitCellX + 1
+    # (Line 19) ];
     EUDTraceLog(9)
-    initialXList = _ARR(FlattenList([unitCellX, unitCellX, unitCellX - 1, unitCellX + 1]))
-    # (Line 16) const initialYList = [
-    # (Line 17) unitCellY - 1,
-    # (Line 18) unitCellY + 1,
-    # (Line 19) unitCellY,
-    # (Line 20) unitCellY
-    # (Line 21) ];
-    EUDTraceLog(16)
-    initialYList = _ARR(FlattenList([unitCellY - 1, unitCellY + 1, unitCellY, unitCellY]))
-    # (Line 23) const dxList = [
-    # (Line 24) 0,
-    # (Line 25) 0,
-    # (Line 26) -1,
-    # (Line 27) 1
-    # (Line 28) ];
-    EUDTraceLog(23)
-    dxList = _ARR(FlattenList([0, 0, -1, 1]))
-    # (Line 30) const dyList = [
-    # (Line 31) -1,
-    # (Line 32) 1,
-    # (Line 33) 0,
-    # (Line 34) 0
-    # (Line 35) ];
-    EUDTraceLog(30)
-    dyList = _ARR(FlattenList([-1, 1, 0, 0]))
-    # (Line 37) for (var i = 0 ; i < 4 ; i++) {
-    EUDTraceLog(37)
+    initialXList = _ARR(FlattenList([unitCellX, unitCellX, unitCellX - 1, unitCellX + 1, unitCellX - 1, unitCellX - 1, unitCellX + 1, unitCellX + 1]))
+    # (Line 21) const initialYList = [
+    # (Line 22) unitCellY - 1,
+    # (Line 23) unitCellY + 1,
+    # (Line 24) unitCellY,
+    # (Line 25) unitCellY,
+    # (Line 27) unitCellY - 1,
+    # (Line 28) unitCellY + 1,
+    # (Line 29) unitCellY - 1,
+    # (Line 30) unitCellY + 1
+    # (Line 31) ];
+    EUDTraceLog(21)
+    initialYList = _ARR(FlattenList([unitCellY - 1, unitCellY + 1, unitCellY, unitCellY, unitCellY - 1, unitCellY + 1, unitCellY - 1, unitCellY + 1]))
+    # (Line 33) const dxList = [
+    # (Line 34) 0,
+    # (Line 35) 0,
+    # (Line 36) -1,
+    # (Line 37) 1,
+    # (Line 39) -1,
+    # (Line 40) -1,
+    # (Line 41) 1,
+    # (Line 42) 1
+    # (Line 43) ];
+    EUDTraceLog(33)
+    dxList = _ARR(FlattenList([0, 0, -1, 1, -1, -1, 1, 1]))
+    # (Line 45) const dyList = [
+    # (Line 46) -1,
+    # (Line 47) 1,
+    # (Line 48) 0,
+    # (Line 49) 0,
+    # (Line 51) -1,
+    # (Line 52) 1,
+    # (Line 53) -1,
+    # (Line 54) 1
+    # (Line 55) ];
+    EUDTraceLog(45)
+    dyList = _ARR(FlattenList([-1, 1, 0, 0, -1, 1, -1, 1]))
+    # (Line 57) for (var i = 0 ; i < 8 ; i++) {
+    EUDTraceLog(57)
     i = _LVAR([0])
     _t1 = EUDWhile()
-    EUDTraceLog(37)
-    if _t1(i >= 4, neg=True):
+    EUDTraceLog(57)
+    if _t1(i >= 8, neg=True):
         def _t2():
-            EUDTraceLog(37)
+            EUDTraceLog(57)
             i.__iadd__(1)
-        # (Line 38) x = initialXList[i];
-        EUDTraceLog(38)
+        # (Line 58) x = initialXList[i];
+        EUDTraceLog(58)
         x << (initialXList[i])
-        # (Line 39) y = initialYList[i];
-        EUDTraceLog(39)
+        # (Line 59) y = initialYList[i];
+        EUDTraceLog(59)
         y << (initialYList[i])
-        # (Line 40) while (1 <= x && x <= 8 && 1 <= y && y <= 8) {
+        # (Line 60) while (1 <= x && x <= 8 && 1 <= y && y <= 8) {
         _t3 = EUDWhile()
-        EUDTraceLog(40)
+        EUDTraceLog(60)
         if _t3(EUDSCAnd()(1 <= x)(x <= 8)(1 <= y)(y <= 8)()):
-            # (Line 41) const otherCellPlayer = board.getBoard(x, y)[[0]];
-            EUDTraceLog(41)
+            # (Line 61) const otherCellPlayer = board.getBoard(x, y)[[0]];
+            EUDTraceLog(61)
             otherCellPlayer = board.f_getBoard(x, y)[0]
-            # (Line 42) if (otherCellPlayer == 0) {
+            # (Line 62) if (otherCellPlayer == 0) {
             _t4 = EUDIf()
-            EUDTraceLog(42)
+            EUDTraceLog(62)
             if _t4(otherCellPlayer == 0):
-                # (Line 43) loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-                EUDTraceLog(43)
+                # (Line 63) loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                EUDTraceLog(63)
                 loc.f_moveCLoc(x, y)
-                # (Line 44) } else if (otherCellPlayer == unitPlayer) break;
-                EUDTraceLog(43)
+                # (Line 64) } else if (otherCellPlayer == unitPlayer) break;
+                EUDTraceLog(63)
                 DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
             _t5 = EUDElseIf()
-            EUDTraceLog(44)
+            EUDTraceLog(64)
             if _t5(otherCellPlayer == unitPlayer):
-                EUDTraceLog(44)
+                EUDTraceLog(64)
                 EUDBreak()
-                # (Line 45) else if (otherCellPlayer == opponentPlayer) {
+                # (Line 65) else if (otherCellPlayer == opponentPlayer) {
             _t6 = EUDElseIf()
-            EUDTraceLog(45)
+            EUDTraceLog(65)
             if _t6(otherCellPlayer == opponentPlayer):
-                # (Line 46) loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-                EUDTraceLog(46)
+                # (Line 66) loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                EUDTraceLog(66)
                 loc.f_moveCLoc(x, y)
-                # (Line 47) break;
-                EUDTraceLog(46)
+                # (Line 67) break;
+                EUDTraceLog(66)
                 DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
-                EUDTraceLog(47)
+                EUDTraceLog(67)
                 EUDBreak()
-                # (Line 48) }
-                # (Line 49) x += dxList[i];
+                # (Line 68) }
+                # (Line 69) x += dxList[i];
             EUDEndIf()
-            EUDTraceLog(49)
+            EUDTraceLog(69)
             x.__iadd__(dxList[i])
-            # (Line 50) y += dyList[i];
-            EUDTraceLog(50)
+            # (Line 70) y += dyList[i];
+            EUDTraceLog(70)
             y.__iadd__(dyList[i])
-            # (Line 51) }
-            # (Line 52) }
+            # (Line 71) }
+            # (Line 72) }
         EUDEndWhile()
-        # (Line 53) }
+        # (Line 73) }
         EUDSetContinuePoint()
         _t2()
     EUDEndWhile()

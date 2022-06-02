@@ -155,46 +155,46 @@ def _LSH(l, r):
 import loc
 # (Line 2) import board;
 import board
-# (Line 4) function moveRook(unitPlayer, unitCellX, unitCellY) {
+# (Line 4) function moveBishop(unitPlayer, unitCellX, unitCellY) {
 @EUDTracedFunc
-def f_moveRook(unitPlayer, unitCellX, unitCellY):
+def f_moveBishop(unitPlayer, unitCellX, unitCellY):
     # (Line 5) const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
     EUDTraceLog(5)
     opponentPlayer = EUDTernary((unitPlayer == 6))(7)(6)
     # (Line 7) var x, y;
     x, y = EUDCreateVariables(2)
     # (Line 9) const initialXList = [
-    # (Line 10) unitCellX,
-    # (Line 11) unitCellX,
-    # (Line 12) unitCellX - 1,
+    # (Line 10) unitCellX - 1,
+    # (Line 11) unitCellX - 1,
+    # (Line 12) unitCellX + 1,
     # (Line 13) unitCellX + 1
     # (Line 14) ];
     EUDTraceLog(9)
-    initialXList = _ARR(FlattenList([unitCellX, unitCellX, unitCellX - 1, unitCellX + 1]))
+    initialXList = _ARR(FlattenList([unitCellX - 1, unitCellX - 1, unitCellX + 1, unitCellX + 1]))
     # (Line 16) const initialYList = [
     # (Line 17) unitCellY - 1,
     # (Line 18) unitCellY + 1,
-    # (Line 19) unitCellY,
-    # (Line 20) unitCellY
+    # (Line 19) unitCellY - 1,
+    # (Line 20) unitCellY + 1
     # (Line 21) ];
     EUDTraceLog(16)
-    initialYList = _ARR(FlattenList([unitCellY - 1, unitCellY + 1, unitCellY, unitCellY]))
+    initialYList = _ARR(FlattenList([unitCellY - 1, unitCellY + 1, unitCellY - 1, unitCellY + 1]))
     # (Line 23) const dxList = [
-    # (Line 24) 0,
-    # (Line 25) 0,
-    # (Line 26) -1,
+    # (Line 24) -1,
+    # (Line 25) -1,
+    # (Line 26) 1,
     # (Line 27) 1
     # (Line 28) ];
     EUDTraceLog(23)
-    dxList = _ARR(FlattenList([0, 0, -1, 1]))
+    dxList = _ARR(FlattenList([-1, -1, 1, 1]))
     # (Line 30) const dyList = [
     # (Line 31) -1,
     # (Line 32) 1,
-    # (Line 33) 0,
-    # (Line 34) 0
+    # (Line 33) -1,
+    # (Line 34) 1
     # (Line 35) ];
     EUDTraceLog(30)
-    dyList = _ARR(FlattenList([-1, 1, 0, 0]))
+    dyList = _ARR(FlattenList([-1, 1, -1, 1]))
     # (Line 37) for (var i = 0 ; i < 4 ; i++) {
     EUDTraceLog(37)
     i = _LVAR([0])

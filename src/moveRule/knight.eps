@@ -1,53 +1,48 @@
 import loc;
 import board;
 
-function moveRook(unitPlayer, unitCellX, unitCellY) {
+function moveKnight(unitPlayer, unitCellX, unitCellY) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
 
   var x, y;
 
   const initialXList = [
-    unitCellX,
-    unitCellX,
     unitCellX - 1,
+    unitCellX - 2,
+    unitCellX - 2,
+    unitCellX - 1,
+
+    unitCellX + 1,
+    unitCellX + 2,
+    unitCellX + 2,
     unitCellX + 1
   ];
 
   const initialYList = [
+    unitCellY - 2,
     unitCellY - 1,
     unitCellY + 1,
-    unitCellY,
-    unitCellY
+    unitCellY + 2,
+
+    unitCellY + 2,
+    unitCellY + 1,
+    unitCellY - 1,
+    unitCellY - 2,
   ];
 
-  const dxList = [
-    0,
-    0,
-    -1,
-    1
-  ];
 
-  const dyList = [
-    -1,
-    1,
-    0,
-    0
-  ];
-
-  for (var i = 0 ; i < 4 ; i++) {
+  for (var i = 0 ; i < 8 ; i++) {
     x = initialXList[i];
     y = initialYList[i];
-    while (1 <= x && x <= 8 && 1 <= y && y <= 8) {
+
+    if (1 <= x && x <= 8 && 1 <= y && y <= 8) {
       const otherCellPlayer = board.getBoard(x, y)[[0]];
       if (otherCellPlayer == 0) {
         loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-      } else if (otherCellPlayer == unitPlayer) break;
+      } else if (otherCellPlayer == unitPlayer);
       else if (otherCellPlayer == opponentPlayer) {
         loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
-        break;
       }
-      x += dxList[i];
-      y += dyList[i];
     }
   }
 }

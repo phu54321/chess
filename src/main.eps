@@ -1,6 +1,10 @@
 import loc;
 import moveRule.pawn;
 import moveRule.rook;
+import moveRule.king;
+import moveRule.knight;
+import moveRule.bishop;
+import moveRule.queen;
 import board;
 
 function onPluginStart() {
@@ -33,6 +37,26 @@ function afterTriggerExec () {
       if (unitType == $U('Rook')) {
         RemoveUnit('Cursor', Force2);
         rook.moveRook(unitPlayer, unitCellX, unitCellY);
+      }
+
+      if (unitType == $U('Bishop')) {
+        RemoveUnit('Cursor', Force2);
+        bishop.moveBishop(unitPlayer, unitCellX, unitCellY);
+      }
+
+      if (unitType == $U('Queen')) {
+        RemoveUnit('Cursor', Force2);
+        queen.moveQueen(unitPlayer, unitCellX, unitCellY);
+      }
+
+      if (unitType == $U('King')) {
+        RemoveUnit('Cursor', Force2);
+        king.moveKing(unitPlayer, unitCellX, unitCellY);
+      }
+
+      if (unitType == $U('Knight')) {
+        RemoveUnit('Cursor', Force2);
+        knight.moveKnight(unitPlayer, unitCellX, unitCellY);
       }
 
       else if (unitType == $U('Cursor')) {
