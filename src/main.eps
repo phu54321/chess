@@ -35,8 +35,8 @@ function afterTriggerExec () {
       const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
       const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
 
-      // if (unitPlayer == whoShouldPlay) { // TODO: revive this
-      if (1) {
+      if (unitPlayer == whoShouldPlay) { // TODO: revive this
+      // if (1) {
         if (unitType == $U('Pawn')) {
           RemoveCursors();
           pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
