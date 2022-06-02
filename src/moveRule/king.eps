@@ -45,4 +45,34 @@ function moveKing(unitPlayer, unitCellX, unitCellY) {
       }
     }
   }
+
+  // 캐슬링 처리
+  const kingLastMovedTurn = board.getBoard(unitCellX, unitCellY)[[2]];
+  if (kingLastMovedTurn == 0) {
+    // assert (unitCellX == 4)
+    // 양쪽 룩을 체크합시다.
+
+    // 왼쪽 캐슬링
+    if (
+      (board.getBoard(3, unitCellY)[[0]] == 0) &&
+      (board.getBoard(2, unitCellY)[[0]] == 0)
+    ) {
+      const p, ut, lmt = board.getBoard(1, unitCellY);
+      if (p == unitPlayer && ut == $U('Rook') && lmt == 0) {
+        loc.moveCLoc(unitCellX - 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      }
+    }
+
+    // 오른쪽 캐슬링
+    if (
+      (board.getBoard(5, unitCellY)[[0]] == 0) &&
+      (board.getBoard(6, unitCellY)[[0]] == 0) &&
+      (board.getBoard(7, unitCellY)[[0]] == 0)
+    ) {
+      const p, ut, lmt = board.getBoard(8, unitCellY);
+      if (p == unitPlayer && ut == $U('Rook') && lmt == 0) {
+        loc.moveCLoc(unitCellX + 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      }
+    }
+  }
 }

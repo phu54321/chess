@@ -13,6 +13,7 @@ function onPluginStart() {
 
 var lastClickedUnitPtr = 0;
 var whoShouldPlay = $P7;
+var currentTurn = 1;
 
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
@@ -28,7 +29,8 @@ function afterTriggerExec () {
       const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
       const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
 
-      if (unitPlayer == whoShouldPlay) {
+      if (unitPlayer == whoShouldPlay) { // TODO: revive this
+      // if (1) {
         if (unitType == $U('Pawn')) {
           RemoveUnit('Cursor', Force2);
           pawn.movePawn(unitPlayer, unitCellX, unitCellY);
@@ -68,11 +70,12 @@ function afterTriggerExec () {
           const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
 
           board.removeBoard(unitCellX, unitCellY);
-          board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer);
+          board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
           board.removeBoard(lastUnitCellX, lastUnitCellY);
           RemoveUnit('Cursor', Force2);
 
           whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+          currentTurn++;
         }
       }
     }

@@ -237,7 +237,63 @@ def f_moveKing(unitPlayer, unitCellX, unitCellY):
             EUDEndIf()
             # (Line 47) }
         EUDEndIf()
-        # (Line 48) }
+        # (Line 50) const kingLastMovedTurn = board.getBoard(unitCellX, unitCellY)[[2]];
         EUDSetContinuePoint()
         _t2()
     EUDEndWhile()
+    EUDTraceLog(50)
+    kingLastMovedTurn = board.f_getBoard(unitCellX, unitCellY)[2]
+    # (Line 51) if (kingLastMovedTurn == 0) {
+    _t7 = EUDIf()
+    EUDTraceLog(51)
+    if _t7(kingLastMovedTurn == 0):
+        # (Line 56) if (
+        _t8 = EUDIf()
+        # (Line 57) (board.getBoard(3, unitCellY)[[0]] == 0) &&
+        # (Line 58) (board.getBoard(2, unitCellY)[[0]] == 0)
+        # (Line 59) ) {
+        EUDTraceLog(59)
+        if _t8(EUDSCAnd()((board.f_getBoard(3, unitCellY)[0] == 0))((board.f_getBoard(2, unitCellY)[0] == 0))()):
+            # (Line 60) const p, ut, lmt = board.getBoard(1, unitCellY);
+            EUDTraceLog(60)
+            p, ut, lmt = List2Assignable([board.f_getBoard(1, unitCellY)])
+            # (Line 61) if (p == unitPlayer && ut == $U('Rook') && lmt == 0) {
+            _t9 = EUDIf()
+            EUDTraceLog(61)
+            if _t9(EUDSCAnd()(p == unitPlayer)(ut == EncodeUnit('Rook'))(lmt == 0)()):
+                # (Line 62) loc.moveCLoc(unitCellX - 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                EUDTraceLog(62)
+                loc.f_moveCLoc(unitCellX - 2, unitCellY)
+                # (Line 63) }
+                EUDTraceLog(62)
+                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                # (Line 64) }
+            EUDEndIf()
+            # (Line 67) if (
+        EUDEndIf()
+        _t10 = EUDIf()
+        # (Line 68) (board.getBoard(5, unitCellY)[[0]] == 0) &&
+        # (Line 69) (board.getBoard(6, unitCellY)[[0]] == 0) &&
+        # (Line 70) (board.getBoard(7, unitCellY)[[0]] == 0)
+        # (Line 71) ) {
+        EUDTraceLog(71)
+        if _t10(EUDSCAnd()((board.f_getBoard(5, unitCellY)[0] == 0))((board.f_getBoard(6, unitCellY)[0] == 0))((board.f_getBoard(7, unitCellY)[0] == 0))()):
+            # (Line 72) const p, ut, lmt = board.getBoard(8, unitCellY);
+            EUDTraceLog(72)
+            p, ut, lmt = List2Assignable([board.f_getBoard(8, unitCellY)])
+            # (Line 73) if (p == unitPlayer && ut == $U('Rook') && lmt == 0) {
+            _t11 = EUDIf()
+            EUDTraceLog(73)
+            if _t11(EUDSCAnd()(p == unitPlayer)(ut == EncodeUnit('Rook'))(lmt == 0)()):
+                # (Line 74) loc.moveCLoc(unitCellX + 2, unitCellY); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+                EUDTraceLog(74)
+                loc.f_moveCLoc(unitCellX + 2, unitCellY)
+                # (Line 75) }
+                EUDTraceLog(74)
+                DoActions(CreateUnit(1, 'Cursor', 'cLoc', unitPlayer))
+                # (Line 76) }
+            EUDEndIf()
+            # (Line 77) }
+        EUDEndIf()
+        # (Line 78) }
+    EUDEndIf()

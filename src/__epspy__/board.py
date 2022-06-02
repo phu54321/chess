@@ -155,12 +155,12 @@ def _LSH(l, r):
 import loc
 # (Line 3) const boardArray = EUDArray(64);
 boardArray = _CGFW(lambda: [EUDArray(64)], 1)[0]
-# (Line 5) function placeBoard(x, y, unit: TrgUnit, player: TrgPlayer) {
-@EUDTracedTypedFunc([None, None, TrgUnit, TrgPlayer])
-def f_placeBoard(x, y, unit, player):
-    # (Line 6) boardArray[(y - 1) * 8 + (x - 1)] = unit + 1000 * player;
+# (Line 5) function placeBoard(x, y, unit: TrgUnit, player: TrgPlayer, turn) {
+@EUDTracedTypedFunc([None, None, TrgUnit, TrgPlayer, None])
+def f_placeBoard(x, y, unit, player, turn):
+    # (Line 6) boardArray[(y - 1) * 8 + (x - 1)] = unit + 1000 * player + 10000 * turn;
     EUDTraceLog(6)
-    _ARRW(boardArray, (y - 1) * 8 + (x - 1)) << (unit + 1000 * player)
+    _ARRW(boardArray, (y - 1) * 8 + (x - 1)) << (unit + 1000 * player + 10000 * turn)
     # (Line 7) loc.moveCLoc(x, y);
     EUDTraceLog(7)
     loc.f_moveCLoc(x, y)
@@ -189,114 +189,117 @@ def f_getBoard(x, y):
     # (Line 18) const value = boardArray[(y - 1) * 8 + (x - 1)];
     EUDTraceLog(18)
     value = boardArray[(y - 1) * 8 + (x - 1)]
-    # (Line 19) const player = value / 1000;
+    # (Line 19) const turn = value / 10000;
     EUDTraceLog(19)
-    player = value // 1000
-    # (Line 20) const unit = value % 1000;
+    turn = value // 10000
+    # (Line 20) const player = value / 1000 % 10;
     EUDTraceLog(20)
-    unit = value % 1000
-    # (Line 21) return player, unit;
+    player = value // 1000 % 10
+    # (Line 21) const unit = value % 1000;
     EUDTraceLog(21)
-    EUDReturn(player, unit)
-    # (Line 22) }
-    # (Line 24) function initBoard () {
+    unit = value % 1000
+    # (Line 22) return player, unit, turn;
+    EUDTraceLog(22)
+    EUDReturn(player, unit, turn)
+    # (Line 23) }
+    # (Line 25) function initBoard () {
 
 @EUDTracedFunc
 def f_initBoard():
-    # (Line 25) placeBoard(1, 2, 'Pawn', P7);
-    EUDTraceLog(25)
-    f_placeBoard(1, 2, 'Pawn', P7)
-    # (Line 26) placeBoard(2, 2, 'Pawn', P7);
+    # (Line 26) placeBoard(1, 2, 'Pawn', P7, 0);
     EUDTraceLog(26)
-    f_placeBoard(2, 2, 'Pawn', P7)
-    # (Line 27) placeBoard(3, 2, 'Pawn', P7);
+    f_placeBoard(1, 2, 'Pawn', P7, 0)
+    # (Line 27) placeBoard(2, 2, 'Pawn', P7, 0);
     EUDTraceLog(27)
-    f_placeBoard(3, 2, 'Pawn', P7)
-    # (Line 28) placeBoard(4, 2, 'Pawn', P7);
+    f_placeBoard(2, 2, 'Pawn', P7, 0)
+    # (Line 28) placeBoard(3, 2, 'Pawn', P7, 0);
     EUDTraceLog(28)
-    f_placeBoard(4, 2, 'Pawn', P7)
-    # (Line 29) placeBoard(5, 2, 'Pawn', P7);
+    f_placeBoard(3, 2, 'Pawn', P7, 0)
+    # (Line 29) placeBoard(4, 2, 'Pawn', P7, 0);
     EUDTraceLog(29)
-    f_placeBoard(5, 2, 'Pawn', P7)
-    # (Line 30) placeBoard(6, 2, 'Pawn', P7);
+    f_placeBoard(4, 2, 'Pawn', P7, 0)
+    # (Line 30) placeBoard(5, 2, 'Pawn', P7, 0);
     EUDTraceLog(30)
-    f_placeBoard(6, 2, 'Pawn', P7)
-    # (Line 31) placeBoard(7, 2, 'Pawn', P7);
+    f_placeBoard(5, 2, 'Pawn', P7, 0)
+    # (Line 31) placeBoard(6, 2, 'Pawn', P7, 0);
     EUDTraceLog(31)
-    f_placeBoard(7, 2, 'Pawn', P7)
-    # (Line 32) placeBoard(8, 2, 'Pawn', P7);
+    f_placeBoard(6, 2, 'Pawn', P7, 0)
+    # (Line 32) placeBoard(7, 2, 'Pawn', P7, 0);
     EUDTraceLog(32)
-    f_placeBoard(8, 2, 'Pawn', P7)
-    # (Line 34) placeBoard(1, 1, 'Rook', P7);
-    EUDTraceLog(34)
-    f_placeBoard(1, 1, 'Rook', P7)
-    # (Line 35) placeBoard(2, 1, 'Knight', P7);
+    f_placeBoard(7, 2, 'Pawn', P7, 0)
+    # (Line 33) placeBoard(8, 2, 'Pawn', P7, 0);
+    EUDTraceLog(33)
+    f_placeBoard(8, 2, 'Pawn', P7, 0)
+    # (Line 35) placeBoard(1, 1, 'Rook', P7, 0);
     EUDTraceLog(35)
-    f_placeBoard(2, 1, 'Knight', P7)
-    # (Line 36) placeBoard(3, 1, 'Bishop', P7);
+    f_placeBoard(1, 1, 'Rook', P7, 0)
+    # (Line 36) placeBoard(2, 1, 'Knight', P7, 0);
     EUDTraceLog(36)
-    f_placeBoard(3, 1, 'Bishop', P7)
-    # (Line 37) placeBoard(4, 1, 'King', P7);
+    f_placeBoard(2, 1, 'Knight', P7, 0)
+    # (Line 37) placeBoard(3, 1, 'Bishop', P7, 0);
     EUDTraceLog(37)
-    f_placeBoard(4, 1, 'King', P7)
-    # (Line 38) placeBoard(5, 1, 'Queen', P7);
+    f_placeBoard(3, 1, 'Bishop', P7, 0)
+    # (Line 38) placeBoard(4, 1, 'King', P7, 0);
     EUDTraceLog(38)
-    f_placeBoard(5, 1, 'Queen', P7)
-    # (Line 39) placeBoard(6, 1, 'Bishop', P7);
+    f_placeBoard(4, 1, 'King', P7, 0)
+    # (Line 39) placeBoard(5, 1, 'Queen', P7, 0);
     EUDTraceLog(39)
-    f_placeBoard(6, 1, 'Bishop', P7)
-    # (Line 40) placeBoard(7, 1, 'Knight', P7);
+    f_placeBoard(5, 1, 'Queen', P7, 0)
+    # (Line 40) placeBoard(6, 1, 'Bishop', P7, 0);
     EUDTraceLog(40)
-    f_placeBoard(7, 1, 'Knight', P7)
-    # (Line 41) placeBoard(8, 1, 'Rook', P7);
+    f_placeBoard(6, 1, 'Bishop', P7, 0)
+    # (Line 41) placeBoard(7, 1, 'Knight', P7, 0);
     EUDTraceLog(41)
-    f_placeBoard(8, 1, 'Rook', P7)
-    # (Line 43) placeBoard(1, 7, 'Pawn', P8);
-    EUDTraceLog(43)
-    f_placeBoard(1, 7, 'Pawn', P8)
-    # (Line 44) placeBoard(2, 7, 'Pawn', P8);
+    f_placeBoard(7, 1, 'Knight', P7, 0)
+    # (Line 42) placeBoard(8, 1, 'Rook', P7, 0);
+    EUDTraceLog(42)
+    f_placeBoard(8, 1, 'Rook', P7, 0)
+    # (Line 44) placeBoard(1, 7, 'Pawn', P8, 0);
     EUDTraceLog(44)
-    f_placeBoard(2, 7, 'Pawn', P8)
-    # (Line 45) placeBoard(3, 7, 'Pawn', P8);
+    f_placeBoard(1, 7, 'Pawn', P8, 0)
+    # (Line 45) placeBoard(2, 7, 'Pawn', P8, 0);
     EUDTraceLog(45)
-    f_placeBoard(3, 7, 'Pawn', P8)
-    # (Line 46) placeBoard(4, 7, 'Pawn', P8);
+    f_placeBoard(2, 7, 'Pawn', P8, 0)
+    # (Line 46) placeBoard(3, 7, 'Pawn', P8, 0);
     EUDTraceLog(46)
-    f_placeBoard(4, 7, 'Pawn', P8)
-    # (Line 47) placeBoard(5, 7, 'Pawn', P8);
+    f_placeBoard(3, 7, 'Pawn', P8, 0)
+    # (Line 47) placeBoard(4, 7, 'Pawn', P8, 0);
     EUDTraceLog(47)
-    f_placeBoard(5, 7, 'Pawn', P8)
-    # (Line 48) placeBoard(6, 7, 'Pawn', P8);
+    f_placeBoard(4, 7, 'Pawn', P8, 0)
+    # (Line 48) placeBoard(5, 7, 'Pawn', P8, 0);
     EUDTraceLog(48)
-    f_placeBoard(6, 7, 'Pawn', P8)
-    # (Line 49) placeBoard(7, 7, 'Pawn', P8);
+    f_placeBoard(5, 7, 'Pawn', P8, 0)
+    # (Line 49) placeBoard(6, 7, 'Pawn', P8, 0);
     EUDTraceLog(49)
-    f_placeBoard(7, 7, 'Pawn', P8)
-    # (Line 50) placeBoard(8, 7, 'Pawn', P8);
+    f_placeBoard(6, 7, 'Pawn', P8, 0)
+    # (Line 50) placeBoard(7, 7, 'Pawn', P8, 0);
     EUDTraceLog(50)
-    f_placeBoard(8, 7, 'Pawn', P8)
-    # (Line 52) placeBoard(1, 8, 'Rook', P8);
-    EUDTraceLog(52)
-    f_placeBoard(1, 8, 'Rook', P8)
-    # (Line 53) placeBoard(2, 8, 'Knight', P8);
+    f_placeBoard(7, 7, 'Pawn', P8, 0)
+    # (Line 51) placeBoard(8, 7, 'Pawn', P8, 0);
+    EUDTraceLog(51)
+    f_placeBoard(8, 7, 'Pawn', P8, 0)
+    # (Line 53) placeBoard(1, 8, 'Rook', P8, 0);
     EUDTraceLog(53)
-    f_placeBoard(2, 8, 'Knight', P8)
-    # (Line 54) placeBoard(3, 8, 'Bishop', P8);
+    f_placeBoard(1, 8, 'Rook', P8, 0)
+    # (Line 54) placeBoard(2, 8, 'Knight', P8, 0);
     EUDTraceLog(54)
-    f_placeBoard(3, 8, 'Bishop', P8)
-    # (Line 55) placeBoard(4, 8, 'King', P8);
+    f_placeBoard(2, 8, 'Knight', P8, 0)
+    # (Line 55) placeBoard(3, 8, 'Bishop', P8, 0);
     EUDTraceLog(55)
-    f_placeBoard(4, 8, 'King', P8)
-    # (Line 56) placeBoard(5, 8, 'Queen', P8);
+    f_placeBoard(3, 8, 'Bishop', P8, 0)
+    # (Line 56) placeBoard(4, 8, 'King', P8, 0);
     EUDTraceLog(56)
-    f_placeBoard(5, 8, 'Queen', P8)
-    # (Line 57) placeBoard(6, 8, 'Bishop', P8);
+    f_placeBoard(4, 8, 'King', P8, 0)
+    # (Line 57) placeBoard(5, 8, 'Queen', P8, 0);
     EUDTraceLog(57)
-    f_placeBoard(6, 8, 'Bishop', P8)
-    # (Line 58) placeBoard(7, 8, 'Knight', P8);
+    f_placeBoard(5, 8, 'Queen', P8, 0)
+    # (Line 58) placeBoard(6, 8, 'Bishop', P8, 0);
     EUDTraceLog(58)
-    f_placeBoard(7, 8, 'Knight', P8)
-    # (Line 59) placeBoard(8, 8, 'Rook', P8);
+    f_placeBoard(6, 8, 'Bishop', P8, 0)
+    # (Line 59) placeBoard(7, 8, 'Knight', P8, 0);
     EUDTraceLog(59)
-    f_placeBoard(8, 8, 'Rook', P8)
-    # (Line 60) }
+    f_placeBoard(7, 8, 'Knight', P8, 0)
+    # (Line 60) placeBoard(8, 8, 'Rook', P8, 0);
+    EUDTraceLog(60)
+    f_placeBoard(8, 8, 'Rook', P8, 0)
+    # (Line 61) }
