@@ -3,12 +3,40 @@ import loc;
 function onPluginStart() {
   setcurpl(Player1);
 
-  var x, y;
-  for (x = 1 ; x <= 8 ; x++) {
-    for ( y = 1 ; y <= 8 ; y++) {
-      // cLoc을 (x, y) 칸으로 옮긴다.
-      loc.moveCLoc(x, y);
-      CreateUnit(1, 'Pawn', 'cLoc', P8);
-    }
-  }
+  // cLoc을 (x, y) 칸으로 옮긴다.
+  loc.moveCLoc(1, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(2, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(3, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(4, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(5, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(6, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(7, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+  loc.moveCLoc(8, 2); CreateUnit(1, 'Pawn', 'cLoc', P7);
+
+  loc.moveCLoc(1, 1); CreateUnit(1, 'Rook', 'cLoc', P7);
+  loc.moveCLoc(2, 1); CreateUnit(1, 'Knight', 'cLoc', P7);
+  loc.moveCLoc(3, 1); CreateUnit(1, 'Bishop', 'cLoc', P7);
+  loc.moveCLoc(4, 1); CreateUnit(1, 'King', 'cLoc', P7);
+  loc.moveCLoc(5, 1); CreateUnit(1, 'Queen', 'cLoc', P7);
+  loc.moveCLoc(6, 1); CreateUnit(1, 'Bishop', 'cLoc', P7);
+  loc.moveCLoc(7, 1); CreateUnit(1, 'Knight', 'cLoc', P7);
+  loc.moveCLoc(8, 1); CreateUnit(1, 'Rook', 'cLoc', P7);
+
+  loc.moveCLoc(1, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(2, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(3, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(4, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(5, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(6, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(7, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+  loc.moveCLoc(8, 7); CreateUnit(1, 'Pawn', 'cLoc', P8);
+
+  loc.moveCLoc(1, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
+  loc.moveCLoc(2, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
+  loc.moveCLoc(3, 8); CreateUnit(1, 'Bishop', 'cLoc', P8);
+  loc.moveCLoc(4, 8); CreateUnit(1, 'King', 'cLoc', P8);
+  loc.moveCLoc(5, 8); CreateUnit(1, 'Queen', 'cLoc', P8);
+  loc.moveCLoc(6, 8); CreateUnit(1, 'Bishop', 'cLoc', P8);
+  loc.moveCLoc(7, 8); CreateUnit(1, 'Knight', 'cLoc', P8);
+  loc.moveCLoc(8, 8); CreateUnit(1, 'Rook', 'cLoc', P8);
 }
