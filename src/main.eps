@@ -8,6 +8,19 @@ function placeBoard(x, y, unit: TrgUnit, player: TrgPlayer) {
   CreateUnit(1, unit, 'cLoc', player);
 }
 
+function removeBoard(x, y) {
+  boardArray[(y - 1) * 8 + (x - 1)] = 0;
+  loc.moveCLoc(x, y);
+  RemoveUnitAt(All, '(any unit)', 'cLoc', AllPlayers);
+}
+
+function getBoard(x, y) {
+  const value = boardArray[(y - 1) * 8 + (x - 1)];
+  const player = value / 1000;
+  const unit = value % 1000;
+  return player, unit;
+}
+
 function initBoard () {
   placeBoard(1, 2, 'Pawn', P7);
   placeBoard(2, 2, 'Pawn', P7);
@@ -52,22 +65,84 @@ function onPluginStart() {
 
 
 
+var lastClickedUnitPtr = 0;
 
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
   const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
 
-  if (clickedUnitPtr != 0) {
-    const unitEPD = EPD(clickedUnitPtr);
-    const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
-    const unitCellX = (unitX - loc.c11x) / 64 + 1;
-    const unitCellY = (unitY - loc.c11y) / 64 + 1;
-    const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
-    simpleprint(unitType, unitX, unitY);
 
-    // unitType == 폰일 경우
-    // unitX, unitY + 1, unitX, unitY + 2 (if unitY = 2)
-    // (unitY > 2)
-    //
+  if (lastClickedUnitPtr != clickedUnitPtr) {
+    if (clickedUnitPtr != 0) {
+      const unitEPD = EPD(clickedUnitPtr);
+      const unitX, unitY = dwbreak(dwread_epd(unitEPD + 0x28 / 4))[[0, 1]];
+      const unitCellX = (unitX - loc.c11x) / 64 + 1;
+      const unitCellY = (unitY - loc.c11y) / 64 + 1;
+      const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
+      const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
+      simpleprint(unitType, unitX, unitY);
+
+
+      if (unitType == $U('Pawn')) {
+        RemoveUnit('Cursor', Force2);
+        // TODO: P8도 처리
+        if (unitPlayer == $P7) {
+          if (unitCellY == 2) {
+            if(getBoard(unitCellX, unitCellY + 2)[[0]] == 0) {
+              loc.moveCLoc(unitCellX, unitCellY + 2); CreateUnit(1, 'Cursor', 'cLoc', P7);
+            }
+          }
+          if (unitCellY < 8) {
+            if(getBoard(unitCellX, unitCellY + 1)[[0]] == 0) {
+              loc.moveCLoc(unitCellX, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
+            }
+            if(unitCellX > 1 && getBoard(unitCellX - 1, unitCellY + 1)[[0]] == $P8) {
+              loc.moveCLoc(unitCellX - 1, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
+            }
+            if(unitCellX < 8 && getBoard(unitCellX + 1, unitCellY + 1)[[0]] == $P8) {
+              loc.moveCLoc(unitCellX + 1, unitCellY + 1); CreateUnit(1, 'Cursor', 'cLoc', P7);
+            }
+          }
+        }
+
+        if (unitPlayer == $P8) {
+          if (unitCellY == 7) {
+            if(getBoard(unitCellX, unitCellY - 2)[[0]] == 0) {
+              loc.moveCLoc(unitCellX, unitCellY - 2); CreateUnit(1, 'Cursor', 'cLoc', P8);
+            }
+          }
+          if (unitCellY > 1) {
+            if(getBoard(unitCellX, unitCellY - 1)[[0]] == 0) {
+              loc.moveCLoc(unitCellX, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
+            }
+            if(unitCellX > 1 && getBoard(unitCellX - 1, unitCellY - 1)[[0]] == $P7) {
+              loc.moveCLoc(unitCellX - 1, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
+            }
+            if(unitCellX < 8 && getBoard(unitCellX + 1, unitCellY - 1)[[0]] == $P7) {
+              loc.moveCLoc(unitCellX + 1, unitCellY - 1); CreateUnit(1, 'Cursor', 'cLoc', P8);
+            }
+          }
+        }
+      }
+
+      else if (unitType == $U('Cursor')) {
+        // lastClickedUnitPtr를 이 위치로 옮기면 됩니다.
+        const lastUnitEPD = EPD(lastClickedUnitPtr);
+        const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+        const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+        const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+        const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+
+        removeBoard(unitCellX, unitCellY);
+        placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer);
+        removeBoard(lastUnitCellX, lastUnitCellY);
+        RemoveUnit('Cursor', Force2);
+      }
+      // unitType == 폰일 경우
+      // unitX, unitY + 1, unitX, unitY + 2 (if unitY = 2)
+      // (unitY > 2)
+      //
+    }
+    lastClickedUnitPtr = clickedUnitPtr;
   }
 }
