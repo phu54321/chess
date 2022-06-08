@@ -9,3 +9,20 @@ function isUnitTypePiece(unitType: TrgUnit) {
   ) return 1;
   return 0;
 }
+
+function isUnitTypeCursor(unitType: TrgUnit) {
+  if (
+    unitType == $U('Cursor') ||
+    unitType == $U('EnPassent') ||
+    unitType == $U('Castling') ||
+    unitType == $U('Promotion')
+  ) return 1;
+  return 0;
+}
+
+function RemoveCursors() {
+  RemoveUnit('Cursor', Force2);
+  RemoveUnit('EnPassent', Force2);
+  RemoveUnit('Castling', Force2);
+  RemoveUnit('Promotion', Force2);
+}
