@@ -19,6 +19,7 @@ function RemoveCursors() {
   RemoveUnit('Cursor', Force2);
   RemoveUnit('EnPassent', Force2);
   RemoveUnit('Castling', Force2);
+  RemoveUnit('Promotion', Force2);
 }
 
 function afterTriggerExec () {
@@ -35,8 +36,8 @@ function afterTriggerExec () {
       const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
       const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
 
-      if (unitPlayer == whoShouldPlay) { // TODO: revive this
-      // if (1) {
+      // if (unitPlayer == whoShouldPlay) { // TODO: revive this
+      if (1) {
         if (unitType == $U('Pawn')) {
           RemoveCursors();
           pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
@@ -76,6 +77,23 @@ function afterTriggerExec () {
 
           board.removeBoard(unitCellX, unitCellY);
           board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
+          board.removeBoard(lastUnitCellX, lastUnitCellY);
+          RemoveCursors();
+
+          whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
+          currentTurn++;
+        }
+
+        else if (unitType == $U('Promotion')) {
+          // lastClickedUnitPtr를 이 위치로 옮기면 됩니다.
+          const lastUnitEPD = EPD(lastClickedUnitPtr);
+          const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
+          const lastUnitCellX = (lastUnitX - loc.c11x) / 64 + 1;
+          const lastUnitCellY = (lastUnitY - loc.c11y) / 64 + 1;
+          const lastUnitType = wread_epd(lastUnitEPD + (0x64 / 4), 0);
+
+          board.removeBoard(unitCellX, unitCellY);
+          board.placeBoard(unitCellX, unitCellY, $U('Queen'), unitPlayer, currentTurn);
           board.removeBoard(lastUnitCellX, lastUnitCellY);
           RemoveCursors();
 

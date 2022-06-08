@@ -13,15 +13,18 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
     }
   }
 
+  // 한 칸 밑으로 간다
+  const promotionY = (unitPlayer == $P7) ? 7 : 2;
   if (1 <= unitCellY + pawnDy && unitCellY + pawnDy <= 8) {
+    const cursorUnit = (promotionY == unitCellY) ? $U('Promotion') : $U('Cursor');
     if(board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0) {
-      loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
     }
     if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
-      loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
     }
     if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
-      loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
     }
   }
 
