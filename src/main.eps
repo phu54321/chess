@@ -6,6 +6,7 @@ import moveRule.knight;
 import moveRule.bishop;
 import moveRule.queen;
 import board;
+import check;
 
 function onPluginStart() {
   board.initBoard();
@@ -41,8 +42,8 @@ function afterTriggerExec () {
       const unitPlayer = bread_epd(unitEPD + 0x4C / 4, 0);
       const unitType = wread_epd(unitEPD + (0x64 / 4), 0);
 
-      // if (unitPlayer == whoShouldPlay) { // TODO: revive this
-      if (1) {
+      if (unitPlayer == whoShouldPlay) { // TODO: revive this
+      // if (1) {
         if (unitType == $U('Pawn')) {
           RemoveCursors();
           pawn.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
@@ -88,6 +89,11 @@ function afterTriggerExec () {
 
           whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
           currentTurn++;
+
+          if (check.checkCheck(currentTurn, whoShouldPlay)) {
+            setcurpl(P1);
+            DisplayText('Check');
+          }
         }
 
         else if (unitType == $U('Promotion')) {
