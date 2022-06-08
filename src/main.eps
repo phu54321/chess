@@ -22,6 +22,11 @@ function RemoveCursors() {
   RemoveUnit('Promotion', Force2);
 }
 
+function placeCursor(x, y, cursorUnit, unitPlayer) {
+  loc.moveCLoc(x, y);
+  CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
+}
+
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
   const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
@@ -40,31 +45,31 @@ function afterTriggerExec () {
       if (1) {
         if (unitType == $U('Pawn')) {
           RemoveCursors();
-          pawn.movePawn(unitPlayer, unitCellX, unitCellY, currentTurn);
+          pawn.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         if (unitType == $U('Rook')) {
           RemoveCursors();
-          rook.moveRook(unitPlayer, unitCellX, unitCellY);
+          rook.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         if (unitType == $U('Bishop')) {
           RemoveCursors();
-          bishop.moveBishop(unitPlayer, unitCellX, unitCellY);
+          bishop.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         if (unitType == $U('Queen')) {
           RemoveCursors();
-          queen.moveQueen(unitPlayer, unitCellX, unitCellY);
+          queen.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         if (unitType == $U('King')) {
           RemoveCursors();
-          king.moveKing(unitPlayer, unitCellX, unitCellY);
+          king.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         if (unitType == $U('Knight')) {
-          knight.moveKnight(unitPlayer, unitCellX, unitCellY);
+          knight.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         else if (unitType == $U('Cursor')) {

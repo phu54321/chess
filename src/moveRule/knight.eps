@@ -1,7 +1,7 @@
 import loc;
 import board;
 
-function moveKnight(unitPlayer, unitCellX, unitCellY) {
+function move(unitPlayer, unitCellX, unitCellY, currentTurn, cb: EUDFuncPtr(4, 0)) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
 
   var x, y;
@@ -38,10 +38,10 @@ function moveKnight(unitPlayer, unitCellX, unitCellY) {
     if (1 <= x && x <= 8 && 1 <= y && y <= 8) {
       const otherCellPlayer = board.getBoard(x, y)[[0]];
       if (otherCellPlayer == 0) {
-        loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+        cb(x, y, $U('Cursor'), unitPlayer);
       } else if (otherCellPlayer == unitPlayer);
       else if (otherCellPlayer == opponentPlayer) {
-        loc.moveCLoc(x, y); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+        cb(x, y, $U('Cursor'), unitPlayer);
       }
     }
   }

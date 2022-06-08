@@ -1,7 +1,7 @@
 import loc;
 import board;
 
-function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
+function move(unitPlayer, unitCellX, unitCellY, currentTurn, cb: EUDFuncPtr(4, 0)) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
   const pawnDy = (unitPlayer == $P7) ? 1 : -1;
   const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
@@ -13,7 +13,7 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
       board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0 &&
       board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0
     ) {
-      loc.moveCLoc(unitCellX, unitCellY + pawnDy * 2); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
+      cb(unitCellX, unitCellY + pawnDy * 2, $U('Cursor'), unitPlayer);
     }
   }
 
@@ -22,13 +22,13 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
   if (1 <= unitCellY + pawnDy && unitCellY + pawnDy <= 8) {
     const cursorUnit = (promotionY == unitCellY) ? $U('Promotion') : $U('Cursor');
     if(board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0) {
-      loc.moveCLoc(unitCellX, unitCellY + pawnDy); CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
+      cb(unitCellX, unitCellY + pawnDy, cursorUnit, unitPlayer);
     }
     if(unitCellX > 1 && board.getBoard(unitCellX - 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
-      loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
+      cb(unitCellX - 1, unitCellY + pawnDy, cursorUnit, unitPlayer);
     }
     if(unitCellX < 8 && board.getBoard(unitCellX + 1, unitCellY + pawnDy)[[0]] == opponentPlayer) {
-      loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
+      cb(unitCellX + 1, unitCellY + pawnDy, cursorUnit, unitPlayer);
     }
   }
 
@@ -37,14 +37,14 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
     if (unitCellX > 1) {
       const p, ut, lmt = board.getBoard(unitCellX - 1, unitCellY);
       if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
-        loc.moveCLoc(unitCellX - 1, unitCellY + pawnDy); CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer);
+        cb(unitCellX - 1, unitCellY + pawnDy, $U('EnPassent'), unitPlayer);
       }
     }
 
     if (unitCellX < 8) {
       const p, ut, lmt = board.getBoard(unitCellX + 1, unitCellY);
       if (p == opponentPlayer && ut == $U('Pawn') && lmt == currentTurn - 1) {
-        loc.moveCLoc(unitCellX + 1, unitCellY + pawnDy); CreateUnit(1, 'EnPassent', 'cLoc', unitPlayer);
+        cb(unitCellX + 1, unitCellY + pawnDy, $U('EnPassent'), unitPlayer);
       }
     }
   }
