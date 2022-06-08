@@ -7,8 +7,12 @@ function movePawn(unitPlayer, unitCellX, unitCellY, currentTurn) {
   const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
   const enPassentY = (unitPlayer == $P7) ? 5 : 4;
 
+  // 처음에 2칸
   if (unitCellY == pawnStartingY) {
-    if(board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0) {
+    if(
+      board.getBoard(unitCellX, unitCellY + pawnDy)[[0]] == 0 &&
+      board.getBoard(unitCellX, unitCellY + pawnDy * 2)[[0]] == 0
+    ) {
       loc.moveCLoc(unitCellX, unitCellY + pawnDy * 2); CreateUnit(1, 'Cursor', 'cLoc', unitPlayer);
     }
   }
