@@ -1,11 +1,6 @@
 import board;
-import moveRule.pawn;
-import moveRule.rook;
-import moveRule.bishop;
-import moveRule.king;
-import moveRule.queen;
-import moveRule.knight;
-
+import moveRule.dispatcher;
+import utils;
 
 /**
   [checkingPlayer]가 지금 공격받고있는지 판단한다.
@@ -33,28 +28,8 @@ function checkCheck(currentTurn, checkingPlayer: TrgPlayer) {
     for(x = 1; x <= 8 ; x++) {
       const player, unitType = board.getBoard(x, y)[[0, 1]];
       if (player == opponentPlayer) {
-        if (unitType == $U('Pawn')) {
-          pawn.move(opponentPlayer, x, y, currentTurn, checkCapturing);
-        }
-
-        if (unitType == $U('Rook')) {
-          rook.move(opponentPlayer, x, y, currentTurn, checkCapturing);
-        }
-
-        if (unitType == $U('Bishop')) {
-          bishop.move(opponentPlayer, x, y, currentTurn, checkCapturing);
-        }
-
-        if (unitType == $U('Queen')) {
-          queen.move(opponentPlayer, x, y, currentTurn, checkCapturing);
-        }
-
-        if (unitType == $U('King')) {
-          king.move(opponentPlayer, x, y, currentTurn, checkCapturing);
-        }
-
-        if (unitType == $U('Knight')) {
-          knight.move(opponentPlayer, x, y, currentTurn, checkCapturing);
+        if (utils.isUnitTypePiece(unitType)) {
+          dispatcher.move(unitType, opponentPlayer, x, y, currentTurn, checkCapturing);
         }
 
         if (isKingBeingCaptured) {

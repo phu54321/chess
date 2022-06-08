@@ -1,12 +1,8 @@
 import loc;
-import moveRule.pawn;
-import moveRule.rook;
-import moveRule.king;
-import moveRule.knight;
-import moveRule.bishop;
-import moveRule.queen;
+import moveRule.dispatcher;
 import board;
 import check;
+import utils;
 
 function onPluginStart() {
   board.initBoard();
@@ -28,6 +24,7 @@ function placeCursor(x, y, cursorUnit, unitPlayer) {
   CreateUnit(1, cursorUnit, 'cLoc', unitPlayer);
 }
 
+
 function afterTriggerExec () {
   SetInvincibility(Enable, '(any unit)', AllPlayers, 'Anywhere');
   const clickedUnitPtr = dwread_epd(EPD(0x6284E8));
@@ -44,34 +41,9 @@ function afterTriggerExec () {
 
       if (unitPlayer == whoShouldPlay) { // TODO: revive this
       // if (1) {
-        if (unitType == $U('Pawn')) {
+        if (utils.isUnitTypePiece(unitType)) {
           RemoveCursors();
-          pawn.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
-        }
-
-        if (unitType == $U('Rook')) {
-          RemoveCursors();
-          rook.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
-        }
-
-        if (unitType == $U('Bishop')) {
-          RemoveCursors();
-          bishop.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
-        }
-
-        if (unitType == $U('Queen')) {
-          RemoveCursors();
-          queen.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
-        }
-
-        if (unitType == $U('King')) {
-          RemoveCursors();
-          king.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
-        }
-
-        if (unitType == $U('Knight')) {
-          RemoveCursors();
-          knight.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
+          dispatcher.move(unitType, unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         else if (unitType == $U('Cursor')) {

@@ -1,0 +1,11 @@
+function isUnitTypePiece(unitType: TrgUnit) {
+  if (
+    unitType == $U('Pawn') ||
+    unitType == $U('Rook') ||
+    unitType == $U('Knight') ||
+    unitType == $U('Bishop') ||
+    unitType == $U('King') ||
+    unitType == $U('Queen')
+  ) return 1;
+  return 0;
+}

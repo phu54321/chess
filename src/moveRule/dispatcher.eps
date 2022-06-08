@@ -1,0 +1,32 @@
+import moveRule.pawn;
+import moveRule.rook;
+import moveRule.king;
+import moveRule.knight;
+import moveRule.bishop;
+import moveRule.queen;
+
+function move(unitType, player, x, y, currentTurn, cb: EUDFuncPtr(4, 0)) {
+  if (unitType == $U('Pawn')) {
+    pawn.move(player, x, y, currentTurn, cb);
+  }
+
+  if (unitType == $U('Rook')) {
+    rook.move(player, x, y, currentTurn, cb);
+  }
+
+  if (unitType == $U('Bishop')) {
+    bishop.move(player, x, y, currentTurn, cb);
+  }
+
+  if (unitType == $U('Queen')) {
+    queen.move(player, x, y, currentTurn, cb);
+  }
+
+  if (unitType == $U('King')) {
+    king.move(player, x, y, currentTurn, cb);
+  }
+
+  if (unitType == $U('Knight')) {
+    knight.move(player, x, y, currentTurn, cb);
+  }
+}
