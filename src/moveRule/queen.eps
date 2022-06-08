@@ -1,7 +1,9 @@
 import loc;
 import board;
 
-function move(unitPlayer, unitCellX, unitCellY, currentTurn, cb: EUDFuncPtr(4, 0)) {
+/// 함수 이름을 뭘로 하는게 좋을까요?
+// - 각 말이 갈 수 있는 위치를 계산하는 함수
+function calcMovablePos(unitPlayer, unitCellX, unitCellY, currentTurn, cb: EUDFuncPtr(4, 0)) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
 
   var x, y;

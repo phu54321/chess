@@ -36,7 +36,7 @@ function afterTriggerExec () {
       // if (1) {
         if (utils.isUnitTypePiece(unitType)) {
           utils.RemoveCursors();
-          dispatcher.move(unitType, unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
+          dispatcher.calcMovablePos(unitType, unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
         else if (utils.isUnitTypeCursor(unitType)) {

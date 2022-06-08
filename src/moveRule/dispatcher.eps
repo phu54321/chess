@@ -5,28 +5,28 @@ import moveRule.knight;
 import moveRule.bishop;
 import moveRule.queen;
 
-function move(unitType, player, x, y, currentTurn, cb: EUDFuncPtr(4, 0)) {
+function calcMovablePos(unitType, player, x, y, currentTurn, cb: EUDFuncPtr(4, 0)) {
   if (unitType == $U('Pawn')) {
-    pawn.move(player, x, y, currentTurn, cb);
+    pawn.calcMovablePos(player, x, y, currentTurn, cb);
   }
 
   if (unitType == $U('Rook')) {
-    rook.move(player, x, y, currentTurn, cb);
+    rook.calcMovablePos(player, x, y, currentTurn, cb);
   }
 
   if (unitType == $U('Bishop')) {
-    bishop.move(player, x, y, currentTurn, cb);
+    bishop.calcMovablePos(player, x, y, currentTurn, cb);
   }
 
   if (unitType == $U('Queen')) {
-    queen.move(player, x, y, currentTurn, cb);
+    queen.calcMovablePos(player, x, y, currentTurn, cb);
   }
 
   if (unitType == $U('King')) {
-    king.move(player, x, y, currentTurn, cb);
+    king.calcMovablePos(player, x, y, currentTurn, cb);
   }
 
   if (unitType == $U('Knight')) {
-    knight.move(player, x, y, currentTurn, cb);
+    knight.calcMovablePos(player, x, y, currentTurn, cb);
   }
 }

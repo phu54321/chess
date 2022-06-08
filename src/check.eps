@@ -29,7 +29,7 @@ function checkCheck(currentTurn, checkingPlayer: TrgPlayer) {
       const player, unitType = board.getBoard(x, y)[[0, 1]];
       if (player == opponentPlayer) {
         if (utils.isUnitTypePiece(unitType)) {
-          dispatcher.move(unitType, opponentPlayer, x, y, currentTurn, checkCapturing);
+          dispatcher.calcMovablePos(unitType, opponentPlayer, x, y, currentTurn, checkCapturing);
         }
 
         if (isKingBeingCaptured) {

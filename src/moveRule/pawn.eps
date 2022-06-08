@@ -1,7 +1,7 @@
 import loc;
 import board;
 
-function move(unitPlayer, unitCellX, unitCellY, currentTurn, cb: EUDFuncPtr(4, 0)) {
+function calcMovablePos(unitPlayer, unitCellX, unitCellY, currentTurn, cb: EUDFuncPtr(4, 0)) {
   const opponentPlayer = (unitPlayer == $P7) ? $P8 : $P7;
   const pawnDy = (unitPlayer == $P7) ? 1 : -1;
   const pawnStartingY = (unitPlayer == $P7) ? 2 : 7;
