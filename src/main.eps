@@ -69,6 +69,7 @@ function afterTriggerExec () {
         }
 
         if (unitType == $U('Knight')) {
+          RemoveCursors();
           knight.move(unitPlayer, unitCellX, unitCellY, currentTurn, f_placeCursor);
         }
 
