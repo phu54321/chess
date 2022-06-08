@@ -1,17 +1,41 @@
 import loc;
 
 const boardArray = EUDArray(64);
+const boardArrayBackup = EUDArray(64);
+var inMemoryMode = false;
+
+function gotoMemoryMode() {
+  var i;
+  for (i = 0 ; i < 64 ; i++) {
+    boardArrayBackup[i] = boardArray[i];
+  }
+  inMemoryMode = true;
+}
+
+function gotoPhysicalMode() {
+  var i;
+  for (i = 0 ; i < 64 ; i++) {
+    boardArray[i] = boardArrayBackup[i];
+  }
+  inMemoryMode = false;
+}
+
+////////////////////////////////////////////////////
 
 function placeBoard(x, y, unit: TrgUnit, player: TrgPlayer, turn) {
   boardArray[(y - 1) * 8 + (x - 1)] = unit + 1000 * player + 10000 * turn;
-  loc.moveCLoc(x, y);
-  CreateUnit(1, unit, 'cLoc', player);
+  if (!inMemoryMode) {
+    loc.moveCLoc(x, y);
+    CreateUnit(1, unit, 'cLoc', player);
+  }
 }
 
 function removeBoard(x, y) {
   boardArray[(y - 1) * 8 + (x - 1)] = 0;
-  loc.moveCLoc(x, y);
-  RemoveUnitAt(All, '(any unit)', 'cLoc', AllPlayers);
+  if (!inMemoryMode) {
+    loc.moveCLoc(x, y);
+    RemoveUnitAt(All, '(any unit)', 'cLoc', AllPlayers);
+  }
 }
 
 function getBoard(x, y) {

@@ -1,0 +1,97 @@
+import moveRule.dispatcher;
+import moveRule.move;
+import check;
+import board;
+
+object Task {
+  var next: selftype;
+  var x;
+  var y;
+  var newX;
+  var newY;
+  var cursorUnit;
+  var unitPlayer;
+};
+
+
+function checkmateOrStalemate(currentTurn, checkingPlayer: TrgPlayer) {
+  const opponentPlayer = (checkingPlayer == $P7) ? $P8 : $P7;
+  var canEscapeCheckmate = 0;
+  var x, y;
+
+  var head = 0;
+
+  const examineMoveIncursCheck = function (newX, newY, cursorUnit, unitPlayer) {
+    // Task 등록
+    const newTask = Task.alloc();
+    newTask.x = x;
+    newTask.y = y;
+    newTask.newX = newX;
+    newTask.newY = newY;
+    newTask.cursorUnit = cursorUnit;
+    newTask.unitPlayer = unitPlayer;
+
+    // 연결 리스트 head 추가
+    newTask.next = head;
+    head = newTask;
+  };
+
+
+  for (y = 1 ; y <= 8 ; y++) {
+    for (x = 1; x <= 8 ; x++) {
+      const player, unitType = board.getBoard(x, y)[[0, 1]];
+      if (player == checkingPlayer) {
+        // 이 말이 할 수 있는 모든 행동을 검토해봅니다.
+        dispatcher.calcMovablePos(unitType, checkingPlayer, x, y, currentTurn, examineMoveIncursCheck);
+        if (canEscapeCheckmate) {
+          return 0;
+        }
+      }
+    }
+  }
+
+  //
+  var taskP = head;
+  var ret = 1;
+
+  while(taskP) {
+    const task = Task.cast(taskP);
+
+    // 1. boardArray의 복사본을 만든다.
+    board.gotoMemoryMode();
+
+    // (x, y) => (newX, newY) 로 기물을 옮겼을 때 check.checkCheck()가 false인 경우
+    const unitPlayer, unitType = board.getBoard(task.x, task.y)[[0, 1]];
+    move.movePiece(
+      task.x, task.y,
+      task.newX, task.newY,
+      task.cursorUnit,
+      unitType, unitPlayer,
+      currentTurn
+    );
+
+    // 3. 체크
+    const isCheck = check.checkCheck(currentTurn + 1, checkingPlayer);
+
+    // 4. boardArray 원상복구
+    board.gotoPhysicalMode();
+
+    if (!isCheck) {
+      ret = 0;
+      break;
+    }
+
+    taskP = task.next;
+  }
+
+  // 연결리스트 해제
+  taskP = head;
+  while (taskP) {
+    const task = Task.cast(taskP);
+    var nextTaskP = task.next;
+    Task.free(task);
+    taskP = nextTaskP;
+  }
+
+  return ret;
+}
