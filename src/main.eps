@@ -1,5 +1,6 @@
 import loc;
 import moveRule.dispatcher;
+import moveRule.move;
 import board;
 import check;
 import utils;
@@ -40,6 +41,8 @@ function afterTriggerExec () {
         }
 
         else if (utils.isUnitTypeCursor(unitType)) {
+          utils.RemoveCursors();
+
           // lastClickedUnitPtr를 이 위치로 옮기면 됩니다.
           const lastUnitEPD = EPD(lastClickedUnitPtr);
           const lastUnitX, lastUnitY = dwbreak(dwread_epd(lastUnitEPD + 0x28 / 4))[[0, 1]];
@@ -51,37 +54,7 @@ function afterTriggerExec () {
           board.removeBoard(lastUnitCellX, lastUnitCellY);
           utils.RemoveCursors();
 
-          if (unitType == $U('Cursor')) {
-            board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
-          }
-
-          else if (unitType == $U('Promotion')) {
-            board.placeBoard(unitCellX, unitCellY, $U('Queen'), unitPlayer, currentTurn);
-          }
-
-          else if (unitType == $U('EnPassent')) {
-            board.removeBoard(unitCellX, lastUnitCellY);
-            board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
-          }
-
-          else if (unitType == $U('Castling')) {
-            board.placeBoard(unitCellX, unitCellY, lastUnitType, unitPlayer, currentTurn);
-
-            // 룩을 옮기자.
-            // lastUnitCellX: 원래 킹의 위치
-            // unitCellX: 킹의 새로운 위치
-            //  : 룩의 위치는 1 또는 8.
-            if (unitCellX < lastUnitCellX) {
-              // 룩은 (1, unitCellY)에 있습니다.
-              board.removeBoard(1, unitCellY);
-              board.placeBoard(unitCellX + 1, unitCellY, $U('Rook'), unitPlayer, currentTurn);
-            } else {
-              // 룩은 (8, unitCellY)에 있습니다.
-              board.removeBoard(8, unitCellY);
-              board.placeBoard(unitCellX - 1, unitCellY, $U('Rook'), unitPlayer, currentTurn);
-            }
-          }
-
+          move.movePiece(lastUnitCellX, lastUnitCellY, unitCellX, unitCellY, unitType, lastUnitType, unitPlayer, currentTurn);
           whoShouldPlay = (whoShouldPlay == $P7) ? $P8 : $P7;
           currentTurn++;
 

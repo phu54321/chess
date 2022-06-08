@@ -1,0 +1,37 @@
+import board;
+
+function movePiece(fromX, fromY, toX, toY, cursorUnitType, pieceUnitType, unitPlayer, currentTurn) {
+  board.removeBoard(toX, toY);
+  board.removeBoard(fromX, fromY);
+
+  if (cursorUnitType == $U('Cursor')) {
+    board.placeBoard(toX, toY, pieceUnitType, unitPlayer, currentTurn);
+  }
+
+  else if (cursorUnitType == $U('Promotion')) {
+    board.placeBoard(toX, toY, $U('Queen'), unitPlayer, currentTurn);
+  }
+
+  else if (cursorUnitType == $U('EnPassent')) {
+    board.removeBoard(toX, fromY);
+    board.placeBoard(toX, toY, pieceUnitType, unitPlayer, currentTurn);
+  }
+
+  else if (cursorUnitType == $U('Castling')) {
+    board.placeBoard(toX, toY, pieceUnitType, unitPlayer, currentTurn);
+
+    // 룩을 옮기자.
+    // fromX: 원래 킹의 위치
+    // toX: 킹의 새로운 위치
+    //  : 룩의 위치는 1 또는 8.
+    if (toX < fromX) {
+      // 룩은 (1, toY)에 있습니다.
+      board.removeBoard(1, toY);
+      board.placeBoard(toX + 1, toY, $U('Rook'), unitPlayer, currentTurn);
+    } else {
+      // 룩은 (8, toY)에 있습니다.
+      board.removeBoard(8, toY);
+      board.placeBoard(toX - 1, toY, $U('Rook'), unitPlayer, currentTurn);
+    }
+  }
+}
